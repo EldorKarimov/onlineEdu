@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from .managers import UserManager
 from .utils import phone_validator
+from config.settings import BASE_DIR
+from ckeditor.fields import RichTextField
 
 class User(PermissionsMixin, AbstractBaseUser):
     USER_TYPE = (
@@ -13,9 +15,15 @@ class User(PermissionsMixin, AbstractBaseUser):
     first_name = models.CharField(_("first name"), max_length=50)
     last_name = models.CharField(_("last name"), max_length=50)
     patronymic = models.CharField(_("patronymic"), max_length=50)
+    bio = RichTextField(_("bio"), null=True, blank=True)
+    image = models.ImageField(upload_to='media/users/', verbose_name=_("Image"),
+                              default=str(BASE_DIR) + '/static/assets/images/teacher/teacher__1.png',
+                              null=True, blank=True)
+    
     phone = models.CharField(_("phone"), max_length=13, unique=True, validators=[phone_validator])
     email = models.EmailField(_("email"), unique=True, null=True, blank=True)
     user_type = models.CharField(_("user type"), max_length=8, choices=USER_TYPE, default='STUDENT')
+    
     date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
     last_login = models.DateTimeField(_("last login"), auto_now=True)
 
