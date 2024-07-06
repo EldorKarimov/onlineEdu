@@ -139,3 +139,10 @@ CKEDITOR_CONFIGS = {
         'width': 800,
     },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+    },
+}
