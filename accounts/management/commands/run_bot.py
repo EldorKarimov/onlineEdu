@@ -23,6 +23,7 @@ def check_contact(message):
         code = generate_code()
         msg = f"kodingiz⬇️\n{code}"
         cache.set(code, message.from_user.id, timeout=60)
+        cache.set(message.from_user.id, message.contact.phone_number)
         bot.reply_to(message, msg)
         bot.send_message(message.chat.id, text="kod olish uchun /login ni bosing.", reply_markup=ReplyKeyboardRemove())
     else:

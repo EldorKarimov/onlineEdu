@@ -21,6 +21,7 @@ class User(PermissionsMixin, AbstractBaseUser):
                               null=True, blank=True)
     
     phone = models.CharField(_("phone"), max_length=13, unique=True, validators=[phone_validator])
+    telegram_id = models.CharField(_("telegram id"), max_length=15, unique=True)
     email = models.EmailField(_("email"), unique=True, null=True, blank=True)
     user_type = models.CharField(_("user type"), max_length=8, choices=USER_TYPE, default='STUDENT')
     
@@ -50,7 +51,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     )
 
     REQUIRED_FIELDS = ['first_name', 'last_name']
-    USERNAME_FIELD = 'phone'
+    USERNAME_FIELD = 'telegram_id'
     objects = UserManager()
 
     def __str__(self):

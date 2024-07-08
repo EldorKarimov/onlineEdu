@@ -5,7 +5,7 @@
 {% block content %}
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <input type="number" name="code" placeholder="code">
     <button type="submit">Yuborish</button>
 </form>
 {% endblock %}
