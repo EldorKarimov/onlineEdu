@@ -11,7 +11,8 @@ class MyQuiz(BaseModel):
     duration_time = models.PositiveIntegerField(
         validators=[MinValueValidator(1)],
         default=1,
-        verbose_name=_("Duration time")
+        verbose_name=_("Duration time"),
+        help_text=_("minutes")
     )
     lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE, verbose_name = _("lesson"))
 
@@ -41,3 +42,7 @@ class Result(BaseModel):
 
     def __str__(self):
         return f"{self.user.get_full_name} - {self.quiz.title}"
+    
+    @property
+    def get_percentage(self):
+        return f"{(self.correct_questions * 100 / self.total_questions):.2f}"

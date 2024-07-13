@@ -60,7 +60,7 @@
           <div class="grid grid-cols-2 lg:grid-cols-12 items-center gap-15px">
             <!-- navbar left -->
             <div class="lg:col-start-1 lg:col-span-2">
-              <a href="index.html" class="block"
+              <a href="{% url 'main:home' %}" class="block"
                 ><img
                   src="{% static 'assets/images/logo/logo_1.png' %}"
                   alt="Logo"
@@ -123,20 +123,30 @@
             <div class="lg:col-start-10 lg:col-span-3">
               <ul class="relative nav-list flex justify-end items-center">
                
-                <li class="hidden lg:block">
+                <!-- <li class="hidden lg:block">
                   <a
                     href="login.html"
                     class="text-size-12 2xl:text-size-15 px-15px py-2 text-blackColor hover:text-whiteColor bg-whiteColor block hover:bg-primaryColor border border-borderColor1 rounded-standard font-semibold mr-[7px] 2xl:mr-15px dark:text-blackColor-dark dark:bg-whiteColor-dark dark:hover:bg-primaryColor dark:hover:text-whiteColor dark:hover:border-primaryColor"
                     ><i class="icofont-user-alt-5"></i
                   ></a>
+                </li> -->
+                {% if request.user.is_authenticated %}
+                <li class="hidden lg:block">
+                  <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="text-size-12 2xl:text-size-15 px-15px py-2 text-blackColor hover:text-whiteColor bg-whiteColor block hover:bg-primaryColor border border-borderColor1 rounded-standard font-semibold mr-[7px] 2xl:mr-15px dark:text-blackColor-dark dark:bg-whiteColor-dark dark:hover:bg-primaryColor dark:hover:text-whiteColor dark:hover:border-primaryColor" type="submit"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
+                  </form>
+                  
                 </li>
+                {% else %}
                 <li class="hidden lg:block">
                   <a
-                    href="#"
+                    href="{% url 'accounts:auth' %}"
                     class="text-size-12 2xl:text-size-15 text-whiteColor bg-primaryColor block border-primaryColor border hover:text-primaryColor hover:bg-white px-15px py-2 rounded-standard dark:hover:bg-whiteColor-dark dark: dark:hover:text-whiteColor"
-                    >Get Start</a
+                    >Kirish</a
                   >
                 </li>
+                {% endif %}
                 <li class="block lg:hidden">
                   <button
                     class="open-mobile-menu text-3xl text-darkdeep1 hover:text-secondaryColor dark:text-whiteColor dark:hover:text-secondaryColor"

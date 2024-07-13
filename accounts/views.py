@@ -19,17 +19,17 @@ class AuthUserView(View):
         user_id = cache.get(code)
         if not user_id:
             messages.error(request, "Kod amal qilish muddati tugagan. Iltimos yangi kod oling")
-            return redirect("auth")
+            return redirect("accounts:auth")
         data = bot.get_chat(user_id)
         contact = cache.get(user_id)
-        user = User.objects.filter(phone = contact).exists()
+        user = User.objects.filter(telegram_id = user_id).exists()
         if user:
             user = User.objects.get(telegram_id = user_id)
             login(request, user)
             return redirect('main:home')
         else:
             if not data.first_name:
-                User.objects.create_user(
+                user = User.objects.create_user(
                 first_name = "first name",
                 last_name = data.last_name,
                 telegram_id = user_id,
@@ -37,7 +37,7 @@ class AuthUserView(View):
                 password = generate_code()
             )
             elif not data.last_name:
-                User.objects.create_user(
+                user = User.objects.create_user(
                 first_name = data.first_name,
                 last_name = "last name",
                 telegram_id = user_id,
@@ -45,13 +45,19 @@ class AuthUserView(View):
                 password = generate_code()
             )
             else:
-                User.objects.create_user(
+                user = User.objects.create_user(
                     first_name = data.first_name,
                     last_name = data.last_name,
                     telegram_id = user_id,
                     phone = contact,
                     password = generate_code()
                 )
-        
-        return HttpResponse(contact)
-        
+        login(request, user)
+        return redirect('main:home')
+    
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('main:home')
+    else:
+        return HttpResponse("error")
