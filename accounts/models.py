@@ -50,7 +50,7 @@ class User(PermissionsMixin, AbstractBaseUser):
         ),
     )
 
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
     USERNAME_FIELD = 'telegram_id'
     objects = UserManager()
 

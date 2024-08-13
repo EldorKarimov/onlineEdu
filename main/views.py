@@ -20,10 +20,10 @@ class CourseDetailView(View):
         lesson_count = 0
         for module in modules:
             lesson_count += Lesson.objects.filter(module = module).count()
-        modules = Module.objects.filter(course = course)
+        # modules = Module.objects.filter(course = course)
         context.update({
             'course':course,
-            'modules': modules,
+            # 'modules': modules,
             'lesson_count':lesson_count
         })
         return render(request, 'courses/course-detail.html', context)

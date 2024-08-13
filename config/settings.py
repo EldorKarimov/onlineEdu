@@ -62,6 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.module_context'
             ],
         },
     },
@@ -134,10 +135,19 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'height': 400,
-        'width': 800,
-    },
+        'toolbar': 'all',
+        # 'toolbar_Custom': [
+        #     ['Bold', 'Italic', 'Underline', 'CodeSnippet'],
+        #     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        #     ['Link', 'Unlink', 'Anchor'],
+        #     ['RemoveFormat', 'Source']
+        # ],
+        'extraPlugins':','.join(
+            ['codesnippet', 
+            'widget',
+            'dialog']
+        ),
+    }
 }
 
 CACHES = {

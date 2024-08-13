@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxLengthValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 from common.models import BaseModel
 from main.models import Lesson
@@ -18,6 +19,9 @@ class MyQuiz(BaseModel):
 
     def __str__(self):
         return self.title
+    
+    def get_url(self):
+        return reverse('my_quiz', kwargs={"course_slug": self.lesson.module.course.slug, "quiz_id":self.id})
     
 class Question(BaseModel):
     name = models.CharField(max_length=150, unique=True)
