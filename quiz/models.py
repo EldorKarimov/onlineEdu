@@ -9,6 +9,8 @@ from accounts.models import User
 
 class MyQuiz(BaseModel):
     title = models.CharField(max_length=150, unique=True)
+    quiz_pass = models.FloatField(default=60, 
+                                    help_text="testdan o'tish foizi")
     duration_time = models.PositiveIntegerField(
         validators=[MinValueValidator(1)],
         default=1,
@@ -43,10 +45,11 @@ class Result(BaseModel):
     quiz = models.ForeignKey(MyQuiz, on_delete=models.SET_NULL, null=True, blank=True)
     total_questions = models.PositiveIntegerField()
     correct_questions = models.PositiveIntegerField()
+    is_pass = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.get_full_name} - {self.quiz.title}"
     
     @property
     def get_percentage(self):
-        return f"{(self.correct_questions * 100 / self.total_questions):.2f}"
+        return round((self.correct_questions * 100 / self.total_questions), 2)

@@ -6,44 +6,95 @@
 <!-- main body -->
 <!-- main body -->
 <main class="bg-transparent">
-    <!-- lesson section -->
-    <section>
-      <div class="container-fluid-2 pt-50px pb-100px">
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
-          <!-- lesson left -->
-          {% include 'includes/lesson-left.html'%}
-          <!-- lesson right -->
-          <div
-            class="xl:col-start-5 xl:col-span-8 relative"
-            data-aos="fade-up"
-          >
-            <div>
-              <div
-                class="absolute top-0 left-0 w-full flex justify-between items-center px-5 py-10px bg-primaryColor leading-1.2 text-whiteColor"
-              >
-                <h3 class="sm:text-size-22 font-bold">
-                  {{ lesson.title }}
-                </h3>
-                <a href="{% url 'main:home' %}" class="">Yopish</a>
-              </div>
+  <!-- lesson section -->
+  <section>
+    <div class="container-fluid-2 pt-50px pb-100px">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
+        <!-- lesson left -->
+        {% include 'includes/lesson-left.html'%}
+        <!-- lesson right -->
+        <div class="xl:col-start-5 xl:col-span-8 relative" data-aos="fade-up">
+          <div>
+            <div
+              class="absolute top-0 left-0 w-full flex justify-between items-center px-5 py-10px bg-primaryColor leading-1.2 text-whiteColor">
+              <h3 class="sm:text-size-22 font-bold">
+                {{ lesson.title }}
+              </h3>
+              <a href="{% url 'main:home' %}" class="">Yopish</a>
+            </div>
 
-              <div class="aspect-[16/9]">
-                <iframe
-                  src="{{ lesson.video_link }}"
-                  allowfullscreen=""
-                  allow="autoplay"
-                  class="w-full h-full"
-                ></iframe>
-              </div>
-              <div class="container mt-3">
-                <p>
-                  {{ lesson.content | safe}}
-                </p>
+            <div class="aspect-[16/9]">
+              <iframe src="{{ lesson.video_link }}" allowfullscreen="" allow="autoplay" class="w-full h-full"></iframe>
+            </div>
+            <div class="lg:col-start-4 lg:col-span-9">
+              <!-- setting area -->
+              <div
+                class="mt-3 p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+
+                <div class="tab">
+                  <div class="tab-links flex flex-wrap mb-10px lg:mb-50px rounded gap-10px">
+                    <button
+                      class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap active">
+                      Kontent
+                    </button>
+
+                    <button
+                      class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap">
+                      Savol So'rash
+                    </button>
+
+                  </div>
+                  <!-- content -->
+                  <div class="tab-contents">
+                    <div class="transition-all duration-300">
+                      <div class="container mt-3">
+                        <p>
+                          {{ lesson.content | safe}}
+                        </p>
+                      </div>
+                    </div>
+                    <!-- Q&A -->
+                    <div class="hidden transition-all duration-300">
+                      <form class="text-sm text-blackColor dark:text-blackColor-dark leading-1.8" data-aos="fade-up">
+                        <div class="grid grid-cols-1 mb-15px gap-y-15px gap-x-30px">
+                          <div>
+                            <label class="mb-3 block font-semibold">Savol Mavzusi</label>
+                            <input type="text" placeholder="Mavzu"
+                              class="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no">
+                          </div>
+
+                          <div class="mb-15px">
+                            <label class="mb-3 block font-semibold">Savol</label>
+                            <textarea
+                             
+                              class="w-full py-10px px-5 text-sm text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md"
+                              
+                              cols="30"
+                              rows="5"
+                            >
+  Savolni shu yerga yozing...
+                       </textarea
+                            >
+                          </div>
+                        </div>
+
+                        <div class="mt-15px">
+                          <button type="submit"
+                            class="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark">
+                            Yuborish
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 {% endblock %}
