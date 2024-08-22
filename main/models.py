@@ -115,3 +115,17 @@ class FileLesson(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class UserLessonProgress(BaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name=_("lesson"))
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name=_("course"))
+    is_completed = models.BooleanField(_("completed"), default=False)
+    is_open = models.BooleanField(_("open"), default=False)
+
+    class Meta:
+        unique_together = ('user', 'lesson', 'course')
+    
+    def __str__(self):
+        return f"{self.user} - {self.lesson.title}"

@@ -1,3 +1,4 @@
+{% load progress_tags %}
 <div class="xl:col-start-1 xl:col-span-4" data-aos="fade-up">
     <!-- curriculum -->
     <ul class="accordion-container curriculum">
@@ -35,6 +36,7 @@
             <div class="content-wrapper p-10px md:px-30px">
               <ul>
                 {% for lesson in module.lesson_set.all %}
+                {% get_user_progress lesson request.user as progress %}
                 <li
                   class="py-4 flex items-center justify-between flex-wrap border-b border-borderColor dark:border-borderColor-dark"
                 >
@@ -54,7 +56,7 @@
                     class="text-blackColor dark:text-blackColor-dark text-sm flex items-center"
                   >
                     
-                    {% if lesson.is_open %}
+                    {% if progress and progress.is_open %}
                     <p class="font-semibold">{{ lesson.minutes }} min</p>
                     <a
                       href="{{ lesson.get_link }}"
@@ -83,7 +85,7 @@
                   </div>
                   <div class="text-blackColor dark:text-blackColor-dark text-sm flex items-center">
                 
-                    {% if lesson.is_open %}
+                    {% if progress.is_open and lesson.myquiz.is_open %}
                     <a href="{{ lesson.myquiz.get_url }}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
                       <p class="px-10px">
                          Boshlash
@@ -155,6 +157,7 @@
             <div class="content-wrapper p-10px md:px-30px">
               <ul>
                 {% for lesson in module.lesson_set.all %}
+                {% get_user_progress lesson request.user as progress %}
                 <li
                   class="py-4 flex items-center justify-between flex-wrap border-b border-borderColor dark:border-borderColor-dark"
                 >
@@ -174,7 +177,7 @@
                     class="text-blackColor dark:text-blackColor-dark text-sm flex items-center"
                   >
                     
-                    {% if lesson.is_open %}
+                    {% if progress.is_open %}
                     <p class="font-semibold">{{ lesson.minutes }} min</p>
                     <a
                       href="{{ lesson.get_link }}"
@@ -203,7 +206,7 @@
                   </div>
                   <div class="text-blackColor dark:text-blackColor-dark text-sm flex items-center">
                 
-                    {% if lesson.is_open %}
+                    {% if lesson.myquiz.is_open %}
                     <a href="{% url 'my_quiz' lesson.myquiz.id %}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
                       <p class="px-10px">
                          Boshlash

@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 import random
 from django.http import HttpResponse
+from main.models import *
 
 from .models import *
 
@@ -37,6 +38,18 @@ class MyQuizView(LoginRequiredMixin, View):
         is_pass = False
         if result >= quiz.quiz_pass:
             is_pass = True
+        if is_pass:
+            lesson = Lesson.objects.get(slug = quiz.lesson.slug)
+            next_lesson = Lesson.objects.filter(module = lesson.module, id__gt=lesson.id).order_by('id').first()
+            if next_lesson:
+                next_progress, created = UserLessonProgress.objects.get_or_create(
+                    user = request.user,
+                    lesson = next_lesson,
+                    course = Course.objects.get(slug = course_slug)
+                )
+                next_progress.is_open = True
+                next_progress.save()
+
         Result.objects.create(
             user = request.user,
             quiz = quiz,

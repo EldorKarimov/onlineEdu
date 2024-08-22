@@ -66,6 +66,13 @@
                     <div data-aos="fade-up">
                         <!-- course content -->
                         <div>
+                            {% if messages %}
+                            {% for mess in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ mess }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                             <!-- course tab -->
                             <div data-aos="fade-up" class="tab course-details-tab">
                                 <div class="tab-links flex flex-wrap md:flex-nowrap mb-30px rounded gap-0.5">
@@ -78,12 +85,19 @@
                                         <i class="icofont-paper mr-2"></i> Tavsif
                                     </button>
                                     
-
-
                                     <button
                                         class="is-checked relative p-10px md:px-25px md:py-15px lg:py-3 2xl:py-15px 2xl:px-45px text-blackColor bg-whiteColor hover:bg-primaryColor hover:text-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark dark:hover:bg-primaryColor dark:hover:text-whiteColor flex items-center">
                                         <i class="icofont-teacher mr-2"></i> Instruktor
                                     </button>
+                                    {% if not is_written_to_course %}
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <button
+                                        class="is-checked relative p-10px md:px-25px md:py-15px lg:py-3 2xl:py-15px 2xl:px-45px text-blackColor bg-whiteColor hover:bg-primaryColor hover:text-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark dark:hover:bg-primaryColor dark:hover:text-whiteColor flex items-center">
+                                        <i class="icofont-paper mr-2"></i> Kursga yozilish
+                                    </button>
+                                    </form>
+                                    {% endif %}
                                 </div>
 
                                 <div class="tab-contents">
