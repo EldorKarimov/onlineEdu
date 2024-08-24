@@ -17,4 +17,4 @@ class LessonAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('title', )}
     list_editable = ('is_open', )
 
-admin.site.register([Module, FileLesson, UserLessonProgress])
+admin.site.register([Module, FileLesson, UserLessonProgress, QuestionAnswer])

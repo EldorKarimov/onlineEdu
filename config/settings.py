@@ -34,7 +34,8 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'widget_tweaks',
 ]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS

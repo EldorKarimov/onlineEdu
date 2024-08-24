@@ -129,3 +129,18 @@ class UserLessonProgress(BaseModel):
     
     def __str__(self):
         return f"{self.user} - {self.lesson.title}"
+    
+class QuestionAnswer(BaseModel):
+    class QAType(models.TextChoices):
+        QUESTION = "question", "Question"
+        ANSWER = "answer", "Answer"
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    file = models.FileField(upload_to='uploads/qa/files', validators=[FileExtensionValidator(
+        allowed_extensions=['pdf', 'doc', 'docx', 'png', 'jpg']
+    )], null=True, blank=True)
+    message = models.CharField(max_length=255)
+    to = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
+    type = models.CharField(max_length=9, choices=QAType.choices)
+
+    def __str__(self):
+        return self.user.get_full_name()
