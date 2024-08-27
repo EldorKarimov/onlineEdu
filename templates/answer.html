@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %} Q&A {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    <!-- banner section -->
+    <section>
+      <div class="container-fluid-2">
+        <div
+          class="bg-naveBlue p-5 md:p-10 rounded-5 flex justify-center md:justify-between items-center flex-wrap gap-2"
+        >
+          <div
+            class="flex items-center flex-wrap justify-center sm:justify-start"
+          >
+            <div class="mr-5">
+              <img
+                src="{{ request.user.image.url }}"
+                alt=""
+                class="w-27 h-27 md:w-22 md:h-22 lg:w-27 lg:h-27 rounded-full p-1 border-2 border-darkdeep7 box-content"
+              >
+            </div>
+            <div class="text-whiteColor font-bold text-center sm:text-start">
+              <h5 class="text-xl leading-1.2 mb-5px">Assalomu Aleykum</h5>
+              <h2 class="text-2xl leading-1.24">{{ request.user.get_full_name }}</h2>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-whiteColor">({{ questions_count }} Savollar)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--dashbord menu section -->
+    <section>
+      <div class="container-fluid-2">
+        <div class="mb-15px mt-5">
+            <label class="mb-3 block font-semibold">Savol</label>
+            <textarea
+             
+              class="w-full py-10px px-5 text-sm text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md"
+              
+              cols="30"
+              rows="5"
+              disabled
+            >
+            {{ question.message }}
+          </textarea
+            >
+          </div>
+          {% if question.file %}
+          <div>
+            <p class="mb-3 block font-semibold">Fayl</p>
+            <a style="width: 30%;"
+          class="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-primaryColor bg-primaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-primaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
+          href="{{ question.file.url }}">
+          <i class="icofont-download"></i>
+          Download</a>
+          </div>
+          {% endif %}
+
+          <div>
+            Javob Yo'llash
+          </div>
+        
+            
+            <div class="mt-5 mb-5">
+                <form method="post" enctype="multipart/form-data"
+                  class="flex items-center bg-darkdeep3 dark:bg-darkdeep3-dark pl-30px rounded-full md:mr-30px"
+                > {% csrf_token %}
+                  <div class="h-[150%] block">
+                    <label
+                      for="attachment"
+                      class="text-darkdeep4 text-xl pr-5 border-r border-darkdeep4 border-opacity-20 dark:border-blue-light2 h-full block py-9px"
+                      ><i
+                        class="icofont-attachment attachment"
+                        aria-hidden="true"
+                      ></i
+                    ></label>
+                    {% render_field form.file id="attachment" type="file" class+="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
+                  </div>
+                  <div class="flex-grow">
+                    {% render_field form.message type="text" placeholder="javob yozish" class+="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
+                  </div>
+                  <div class="flex-shrink-0">
+                    <button
+                      class="w-50px h-50px leading-50px bg-primaryColor text-whiteColor rounded-full"
+                    >
+                      <i class="icofont-arrow-right text-xl"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+          
+          
+          
+        
+      </div>
+    </section>
+  </main>
+{% endblock %}

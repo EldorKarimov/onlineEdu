@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('phone', 'first_name', 'last_name', 'password1', 'password2'),
         }),
     )
-    list_display = ('phone', 'first_name', 'last_name', 'is_staff', 'is_active')
+    list_display = ('phone', 'telegram_id', 'first_name', 'last_name', 'is_staff', 'is_active')
     list_display_links = ("first_name", 'phone')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('phone', 'first_name', 'last_name', 'email')

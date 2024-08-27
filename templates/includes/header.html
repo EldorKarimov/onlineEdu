@@ -70,16 +70,18 @@
             <!-- Main menu -->
             <div class="hidden lg:block lg:col-start-3 lg:col-span-7">
               <ul class="nav-list flex justify-center">
+                {% if request.user.is_authenticated and request.user.user_type == 'TEACHER' %}
                 <li class="nav-item group">
                   <a
-                    href="#"
+                    href="{% url 'main:qaAdmin' %}"
                     class="px-5 lg:px-10px 2xl:px-15px 3xl:px-5 py-10 lg:py-5 2xl:py-30px 3xl:py-10 leading-sm 2xl:leading-lg text-base lg:text-sm 2xl:text-base font-semibold block group-hover:text-primaryColor dark:text-whiteColor"
                   >
-                    Demos
+                    Q&A
                   </a>
                   <!-- dropdown menu -->
                   
                 </li>
+                {% endif %}
                 <li class="nav-item group">
                   <a
                     href="#"

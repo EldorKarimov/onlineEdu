@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
+from common.permissions import AdminLoginRequiredMixin
 
 class HomePageView(View):
     def get(self, request):
@@ -60,7 +61,7 @@ class LessonDetailView(LoginRequiredMixin, View):
         except Course.DoesNotExist:
             return HttpResponse("Course not found")
         
-        chats = QuestionAnswer.objects.filter(user = request.user, to = course.author).order_by('-created')
+        chats = QuestionAnswer.objects.filter(user = request.user, lesson = lesson, to = course.author).order_by('-created')
         form = QuestionAnserForm()
         context = {
             "lesson": lesson,
@@ -72,12 +73,13 @@ class LessonDetailView(LoginRequiredMixin, View):
 
     def post(self, request, course_slug, module_slug, lesson_slug):
         qaPost = request.POST.get("message")
+        lesson = get_object_or_404(Lesson, slug=lesson_slug, module__slug=module_slug)
         
         if qaPost:
             try:
                 course = Course.objects.get(slug = course_slug)
             except Course.DoesNotExist:
-                return HttpResponse("Kurs topilmadi")
+                return HttpResponse("Course not found")
             course_author = course.author
 
             if course_author is None:
@@ -89,10 +91,11 @@ class LessonDetailView(LoginRequiredMixin, View):
                 form_save.user = request.user
                 form_save.to = course_author
                 form_save.type = QuestionAnswer.QAType.QUESTION
+                form_save.lesson = lesson
                 form_save.save()
                 return redirect("main:lesson_detail", course_slug, module_slug, lesson_slug)
             return HttpResponse("success")
-        lesson = get_object_or_404(Lesson, slug=lesson_slug, module__slug=module_slug)
+        
         user_lesson_progress = UserLessonProgress.objects.get(
             user = request.user,
             lesson = lesson,
@@ -118,3 +121,49 @@ class LessonDetailView(LoginRequiredMixin, View):
                 next_progress.is_open = True
                 next_progress.save()
             return redirect("main:lesson_detail", course_slug, module_slug, lesson_slug)
+
+
+class QuestionAnswerAdmin(AdminLoginRequiredMixin, View):
+    def get(self, request):
+        questions = QuestionAnswer.objects.filter(
+            to = request.user, type = QuestionAnswer.QAType.QUESTION,
+            is_answered = False
+        ).order_by('created')
+        answered_questions = QuestionAnswer.objects.filter(to = request.user, type = QuestionAnswer.QAType.ANSWER, is_answered=True).order_by('-created')
+        questions_count = questions.count()
+        context = {
+            'questions':questions,
+            'answered_questions':answered_questions,
+            'questions_count':questions_count
+        }
+        return render(request, 'qa.html', context)
+    
+def delete_question(request, question_id):
+    question = get_object_or_404(QuestionAnswer, id = question_id)
+    question.delete()
+    return redirect('main:qaAdmin')
+
+
+class AnswerTheQuestion(AdminLoginRequiredMixin, View):
+    def get(self, request, question_id):
+        question = get_object_or_404(QuestionAnswer, id = question_id)
+        form = QuestionAnserForm()
+        context = {
+            'question':question,
+            'form':form
+        }
+        return render(request, 'answer.html', context)
+    
+    def post(self, request, question_id):
+        question = get_object_or_404(QuestionAnswer, id = question_id)
+        form = QuestionAnserForm(request.POST, request.FILES)
+        if form.is_valid():
+            form_save = form.save(commit=False)
+            form_save.user = question.user
+            form_save.to = request.user
+            form_save.lesson = question.lesson
+            form_save.is_answered = True
+            form_save.type = QuestionAnswer.QAType.ANSWER
+            form_save.save()
+            return redirect('main:answer_to_question', question.id)
+        return HttpResponse("Bad request")

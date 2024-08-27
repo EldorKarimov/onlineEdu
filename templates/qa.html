@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block title %} Q&A {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    <!-- banner section -->
+    <section>
+      <div class="container-fluid-2">
+        <div
+          class="bg-naveBlue p-5 md:p-10 rounded-5 flex justify-center md:justify-between items-center flex-wrap gap-2"
+        >
+          <div
+            class="flex items-center flex-wrap justify-center sm:justify-start"
+          >
+            <div class="mr-5">
+              <img
+                src="{{ request.user.image.url }}"
+                alt=""
+                class="w-27 h-27 md:w-22 md:h-22 lg:w-27 lg:h-27 rounded-full p-1 border-2 border-darkdeep7 box-content"
+              >
+            </div>
+            <div class="text-whiteColor font-bold text-center sm:text-start">
+              <h5 class="text-xl leading-1.2 mb-5px">Assalomu Aleykum</h5>
+              <h2 class="text-2xl leading-1.24">{{ request.user.get_full_name }}</h2>
+            </div>
+          </div>
+          <div class="text-center">
+            <p class="text-whiteColor">({{ questions_count }} Savollar)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--dashbord menu section -->
+    <section>
+      <div class="container-fluid-2" style="width: 100%;">
+        
+          <!-- dashboard content -->
+          <div class="lg:col-start-12 lg:col-span-9 mt-5">
+            <!-- review area -->
+            <div
+              class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5"
+            >
+              <!-- heading -->
+              <div
+                class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark"
+              >
+                <h2
+                  class="text-2xl font-bold text-blackColor dark:text-blackColor-dark"
+                >
+                  Savollar
+                </h2>
+              </div>
+              <div class="tab">
+                <div
+                  class="tab-links flex flex-wrap mb-10px lg:mb-50px rounded gap-10px"
+                >
+                  <button
+                    class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap active"
+                  >
+                    Javob Berilmagan
+                  </button>
+
+                  <button
+                    class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap"
+                  >
+                    Javob Berilgan
+                  </button>
+                </div>
+                <div class="tab-contents">
+                  <!-- content 1 -->
+                  <div class="transition-all duration-300">
+                    <div class="overflow-auto">
+                      <table class="w-full text-left">
+                        <thead
+                          class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8"
+                        >
+                          <tr>
+                            <th class="px-5px py-10px md:px-5">Talaba</th>
+                            <th class="px-5px py-10px md:px-5">Sana</th>
+                            <th class="px-5px py-10px md:px-5">Savol</th>
+                            <th class="px-5px py-10px md:px-5">Harakat</th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal"
+                        >
+                        {% for question in questions %}
+                          <tr class="leading-1.8 md:leading-1.8">
+                            <th class="px-5px py-10px md:px-5 font-normal">
+                              <p
+                                class="text-blackColor dark:text-blackColor-dark text-nowrap"
+                              >
+                                {{ question.user.get_full_name }}
+                              </p>
+                            </th>
+                            <td class="px-5px py-10px md:px-5 text-nowrap">
+                              <p>{{ question.created|date}}</p>
+                            </td>
+                            <td class="px-5px py-10px md:px-5">
+                              <p
+                                class="md:text-size-15 text-blackColor dark:text-blackColor-dark font-bold"
+                              >
+                                {{ question.message |truncatewords:5}}
+                              </p>
+                            </td>
+                            <td class="px-5px py-10px md:px-5">
+                                <div class="flex">
+                                  <a
+                                    class="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8 relative before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300"
+                                    href="{% url 'main:answer_to_question' question.id %}"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="14"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      class="feather feather-edit"
+                                    >
+                                      <path
+                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                                      ></path>
+                                      <path
+                                        d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                                      ></path>
+                                    </svg>
+                                    Javob</a
+                                  >
+                                  <a
+                                    class="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8"
+                                    href="{% url 'main:delete_question' question.id %}"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="14"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      class="feather feather-trash-2"
+                                    >
+                                      <polyline
+                                        points="3 6 5 6 21 6"
+                                      ></polyline>
+                                      <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                      ></path>
+                                      <line
+                                        x1="10"
+                                        y1="11"
+                                        x2="10"
+                                        y2="17"
+                                      ></line>
+                                      <line
+                                        x1="14"
+                                        y1="11"
+                                        x2="14"
+                                        y2="17"
+                                      ></line>
+                                    </svg>
+                                    O'chirish</a
+                                  >
+                                </div>
+                              </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!-- content 2 -->
+                  <div class="hidden transition-all duration-300">
+                    <div class="overflow-auto">
+                      <table class="w-full text-left">
+                        <thead
+                          class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8"
+                        >
+                        <tr>
+                            <th class="px-5px py-10px md:px-5">Talaba</th>
+                            <th class="px-5px py-10px md:px-5">Sana</th>
+                            <th class="px-5px py-10px md:px-5">Savol</th>
+                            <th class="px-5px py-10px md:px-5">Harakat</th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal"
+                        >
+                        {% for question in answered_questions %}
+                        <tr class="leading-1.8 md:leading-1.8">
+                          <th class="px-5px py-10px md:px-5 font-normal">
+                            <p
+                              class="text-blackColor dark:text-blackColor-dark text-nowrap"
+                            >
+                              {{ question.user.get_full_name }}
+                            </p>
+                          </th>
+                          <td class="px-5px py-10px md:px-5 text-nowrap">
+                            <p>{{ question.created|date}}</p>
+                          </td>
+                          <td class="px-5px py-10px md:px-5">
+                            <p
+                              class="md:text-size-15 text-blackColor dark:text-blackColor-dark font-bold"
+                            >
+                              {{ question.message |truncatewords:5}}
+                            </p>
+                          </td>
+                          <td class="px-5px py-10px md:px-5">
+                              <div class="flex">
+                                <a
+                                  class="flex items-center gap-1 md:text-sm font-bold text-blackColor dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor px-10px leading-1.8"
+                                  href="{% url 'main:delete_question' question.id %}"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="14"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="feather feather-trash-2"
+                                  >
+                                    <polyline
+                                      points="3 6 5 6 21 6"
+                                    ></polyline>
+                                    <path
+                                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                                    ></path>
+                                    <line
+                                      x1="10"
+                                      y1="11"
+                                      x2="10"
+                                      y2="17"
+                                    ></line>
+                                    <line
+                                      x1="14"
+                                      y1="11"
+                                      x2="14"
+                                      y2="17"
+                                    ></line>
+                                  </svg>
+                                  O'chirish</a
+                                >
+                              </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+      </div>
+    </section>
+  </main>
+{% endblock %}
