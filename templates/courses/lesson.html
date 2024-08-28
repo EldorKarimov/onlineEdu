@@ -41,7 +41,8 @@
                     </button>
 
                     <button
-                      class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap">
+                      class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap"
+                    >
                       Savol So'rash
                     </button>
                     <form action="" method="post">
@@ -63,162 +64,170 @@
                         </p>
                       </div>
                     </div>
-                    <!-- Q&A -->
-                    <div class="lg:col-start-4 lg:col-span-9">
-                      <!-- Messages area -->
-                      <div>
-                        <div class="mb-15px">
-                          <h2
-                            class="text-2xl font-bold text-blackColor dark:text-blackColor-dark"
-                          >
-                            Savol Javoblar
-                          </h2>
-                        </div>
-                        <!-- message body -->
-                        <div
-                          class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-6 gap-30px"
+                    <div class="hidden transition-all duration-300">
+                      <!-- Q&A -->
+                  <div class="lg:col-start-4 lg:col-span-9">
+                    <!-- Messages area -->
+                    <div>
+                      <div class="mb-15px">
+                        <h2
+                          class="text-2xl font-bold text-blackColor dark:text-blackColor-dark"
                         >
-                          <!-- conversation -->
-                          <div class="xl:col-start-12 xl:col-span-7">
+                          Savol Javoblar
+                        </h2>
+                      </div>
+                      {% if form.errors %}
+                      <div class="alert alert-danger">
+                        {{ form.errors }}
+                      </div>
+                      {% endif %}
+                      <!-- message body -->
+                      <div
+                        class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-6 gap-30px"
+                      >
+                        <!-- conversation -->
+                        <div class="xl:col-start-12 xl:col-span-7">
+                          <div
+                            class="p-10px bg-whiteColor dark:bg-whiteColor-dark rounded-lg2"
+                          >
+                            <!-- heading -->
                             <div
-                              class="p-10px bg-whiteColor dark:bg-whiteColor-dark rounded-lg2"
+                              class="flex justify-between items-center pb-10px border-b border-borderColor dark:border-borderColor-dark"
                             >
-                              <!-- heading -->
-                              <div
-                                class="flex justify-between items-center pb-10px border-b border-borderColor dark:border-borderColor-dark"
-                              >
-                                <div class="flex items-center">
+                              <div class="flex items-center">
+                                <!-- avatar -->
+                                <div class="max-w-50px mr-5">
+                                  <img
+                                    src="../../assets/images/teacher/teacher__2.png"
+                                    alt=""
+                                    class="w-full"
+                                  >
+                                </div>
+                              </div>
+                            </div>
+      
+                            <!-- conversation body -->
+                            <div
+                              class="max-h-125 overflow-y-auto mt-10 flex flex-col-reverse"
+                            >
+                              
+                               {% for chat in chats %}
+                               <!-- receiver -->
+                                {% if chat.type == "answer" %}
+                              <div class="max-w-415px">
+                                <div class="flex">
                                   <!-- avatar -->
-                                  <div class="max-w-50px mr-5">
+                                  <div class="w-15 h-15 mr-5 flex-shrink">
                                     <img
-                                      src="../../assets/images/teacher/teacher__2.png"
+                                      src="{% static 'assets/images/teacher/teacher__1.png' %}"
+                                      alt=""
+                                      class="w-full"
+                                    >
+                                  </div>
+                                  <!-- details -->
+                                  <div class="flex-grow">
+                                    <div>
+                                      <p
+                                        class="text-sm text-blackColor dark:text-blackColor-dark px-15px py-10px mb-15px bg-darkdeep3 dark:bg-darkdeep3-dark rounded-5px"
+                                      >
+                                        <span class="leading-26px">
+                                          {{ chat.message }}
+                                          </span
+                                        >
+                                      </p>
+                                      <p
+                                        class="text-sm text-darkdeep4 text-start leading-22px mb-10px"
+                                      >
+                                        {{ chat.created|time}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              {% else %}
+                              <!-- sender -->
+                              <div class="max-w-415px ml-auto">
+                                <div class="flex text-end">
+                                  <!-- details -->
+                                  <div class="flex-grow mr-5">
+                                    
+                                    <div>
+                                      <p
+                                        class="text-sm text-blackColor dark:text-blackColor-dark px-15px py-10px mb-15px bg-darkdeep3 dark:bg-darkdeep3-dark rounded-5px"
+                                      >
+                                        <span class="leading-26px">
+                                          {{ chat.message }}
+                                          </span
+                                        >
+                                      </p>
+                                      <p
+                                        class="text-sm text-darkdeep4 leading-22px mb-10px"
+                                      >
+                                        {{ chat.created|time}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <!-- avatar -->
+                                  <div class="w-15 h-15 flex-shrink">
+                                    <img
+                                      src="../../assets/images/teacher/teacher__3.png"
                                       alt=""
                                       class="w-full"
                                     >
                                   </div>
                                 </div>
                               </div>
-        
-                              <!-- conversation body -->
-                              <div
-                                class="max-h-125 overflow-y-auto mt-10 flex flex-col-reverse"
-                              >
-                                
-                                 {% for chat in chats %}
-                                 <!-- receiver -->
-                                  {% if chat.type == "answer" %}
-                                <div class="max-w-415px">
-                                  <div class="flex">
-                                    <!-- avatar -->
-                                    <div class="w-15 h-15 mr-5 flex-shrink">
-                                      <img
-                                        src="{% static 'assets/images/teacher/teacher__1.png' %}"
-                                        alt=""
-                                        class="w-full"
-                                      >
-                                    </div>
-                                    <!-- details -->
-                                    <div class="flex-grow">
-                                      <div>
-                                        <p
-                                          class="text-sm text-blackColor dark:text-blackColor-dark px-15px py-10px mb-15px bg-darkdeep3 dark:bg-darkdeep3-dark rounded-5px"
-                                        >
-                                          <span class="leading-26px">
-                                            {{ chat.message }}
-                                            </span
-                                          >
-                                        </p>
-                                        <p
-                                          class="text-sm text-darkdeep4 text-start leading-22px mb-10px"
-                                        >
-                                          {{ chat.created|time}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
+                              {% endif %}
+                              {% endfor %}
+                            </div>
+      
+                            <!-- conversation input -->
+                            <div>
+                              <form method="post" enctype="multipart/form-data"
+                                class="flex items-center bg-darkdeep3 dark:bg-darkdeep3-dark pl-30px rounded-full md:mr-30px"
+                              > {% csrf_token %}
+                              
+                                <div class="h-[150%] block">
+                                  <label
+                                    for="attachment"
+                                    class="text-darkdeep4 text-xl pr-5 border-r border-darkdeep4 border-opacity-20 dark:border-blue-light2 h-full block py-9px"
+                                    ><i
+                                      class="icofont-attachment attachment"
+                                      aria-hidden="true"
+                                    ></i
+                                  ></label>
+                                  <!-- <input
+                                    id="attachment"
+                                    type="file"
+                                    class="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
+                                  > -->
+                                  {% render_field form.file id="attachment" type="file" class+="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
                                 </div>
-                                {% else %}
-                                <!-- sender -->
-                                <div class="max-w-415px ml-auto">
-                                  <div class="flex text-end">
-                                    <!-- details -->
-                                    <div class="flex-grow mr-5">
-                                      
-                                      <div>
-                                        <p
-                                          class="text-sm text-blackColor dark:text-blackColor-dark px-15px py-10px mb-15px bg-darkdeep3 dark:bg-darkdeep3-dark rounded-5px"
-                                        >
-                                          <span class="leading-26px">
-                                            {{ chat.message }}
-                                            </span
-                                          >
-                                        </p>
-                                        <p
-                                          class="text-sm text-darkdeep4 leading-22px mb-10px"
-                                        >
-                                          {{ chat.created|time}}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <!-- avatar -->
-                                    <div class="w-15 h-15 flex-shrink">
-                                      <img
-                                        src="../../assets/images/teacher/teacher__3.png"
-                                        alt=""
-                                        class="w-full"
-                                      >
-                                    </div>
-                                  </div>
+                                <div class="flex-grow">
+                                  <!-- <input
+                                    type="text"
+                                    placeholder="Type somthing"
+                                    class="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
+                                  > -->
+                                  {% render_field form.message name="message" type="text" placeholder="Type somthing" class+="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
                                 </div>
-                                {% endif %}
-                                {% endfor %}
-                              </div>
-        
-                              <!-- conversation input -->
-                              <div>
-                                <form method="post"
-                                  class="flex items-center bg-darkdeep3 dark:bg-darkdeep3-dark pl-30px rounded-full md:mr-30px"
-                                > {% csrf_token %}
-                                  <div class="h-[150%] block">
-                                    <label
-                                      for="attachment"
-                                      class="text-darkdeep4 text-xl pr-5 border-r border-darkdeep4 border-opacity-20 dark:border-blue-light2 h-full block py-9px"
-                                      ><i
-                                        class="icofont-attachment attachment"
-                                        aria-hidden="true"
-                                      ></i
-                                    ></label>
-                                    <!-- <input
-                                      id="attachment"
-                                      type="file"
-                                      class="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
-                                    > -->
-                                    {% render_field form.file id="attachment" type="file" class+="hidden w-full pl-5 py-10px bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
-                                  </div>
-                                  <div class="flex-grow">
-                                    <!-- <input
-                                      type="text"
-                                      placeholder="Type somthing"
-                                      class="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium"
-                                    > -->
-                                    {% render_field form.message name="message" type="text" placeholder="Type somthing" class+="w-full pl-5 py-10px text-darkdeep4 bg-transparent text-sm focus:outline-none placeholder:text-placeholder placeholder:opacity-80 leading-7 font-medium" %}
-                                  </div>
-                                  <div class="flex-shrink-0">
-                                    <button
-                                      class="w-50px h-50px leading-50px bg-primaryColor text-whiteColor rounded-full"
-                                    >
-                                      <i class="icofont-arrow-right text-xl"></i>
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
+                                <div class="flex-shrink-0">
+                                  <button
+                                    class="w-50px h-50px leading-50px bg-primaryColor text-whiteColor rounded-full"
+                                  >
+                                    <i class="icofont-arrow-right text-xl"></i>
+                                  </button>
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
                   </div>
+                    </div>
+                  </div>
+                  
                 </div>
               </div>
             </div>

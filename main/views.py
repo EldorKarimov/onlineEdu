@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import *
 from common.permissions import AdminLoginRequiredMixin
+from common.utils import file_checker
 
 class HomePageView(View):
     def get(self, request):
@@ -85,7 +86,12 @@ class LessonDetailView(LoginRequiredMixin, View):
             if course_author is None:
                 return HttpResponse("Course author not found", status=400)
             
-            form = QuestionAnserForm(request.POST)
+            form = QuestionAnserForm(request.POST, request.FILES)
+
+            fayl = request.FILES.get('fayl')
+            if fayl:
+                if not file_checker(fayl.name):
+                    raise ValidationError("Fayl kengaytmasi noto'g'ri. Ruxsat etilgan kengaytmalar: pdf, doc, docx, png, jpg.")
             if form.is_valid():
                 form_save = form.save(commit=False)
                 form_save.user = request.user
@@ -94,7 +100,9 @@ class LessonDetailView(LoginRequiredMixin, View):
                 form_save.lesson = lesson
                 form_save.save()
                 return redirect("main:lesson_detail", course_slug, module_slug, lesson_slug)
-            return HttpResponse("success")
+            return render(request, 'courses/lesson.html', {"form":form})
+
+            
         
         user_lesson_progress = UserLessonProgress.objects.get(
             user = request.user,

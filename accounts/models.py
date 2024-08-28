@@ -16,9 +16,7 @@ class User(PermissionsMixin, AbstractBaseUser):
     last_name = models.CharField(_("last name"), max_length=50)
     patronymic = models.CharField(_("patronymic"), max_length=50)
     bio = RichTextField(_("bio"), null=True, blank=True)
-    image = models.ImageField(upload_to='media/users/', verbose_name=_("Image"),
-                              default=str(BASE_DIR) + '/static/assets/images/teacher/teacher__1.png',
-                              null=True, blank=True)
+    image = models.ImageField(upload_to='media/users/', verbose_name=_("Image"), null=True, blank=True)
     
     phone = models.CharField(_("phone"), max_length=13, unique=True, validators=[phone_validator])
     telegram_id = models.CharField(_("telegram id"), max_length=15, unique=True)

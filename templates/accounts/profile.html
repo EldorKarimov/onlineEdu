@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Profile | {{ profile.get_full_name }} {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    {% include 'includes/user_banner.html' %}
+
+    <!--dashbord menu section -->
+    <section>
+      <div class="container-fluid-2">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-12 gap-30px pt-30px pb-100px"
+        >
+          {% include 'includes/profile_left.html' %}
+          <!-- dashboard content -->
+          <div class="lg:col-start-4 lg:col-span-9">
+            <!-- profile details -->
+            <div
+              class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5"
+            >
+              <div
+                class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark"
+              >
+                <h2
+                  class="text-2xl font-bold text-blackColor dark:text-blackColor-dark"
+                >
+                  Mening Profilim
+                </h2>
+              </div>
+
+              <div>
+                <ul>
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Regintratsiya Sanasi</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block"
+                        >{{ profile.date_joined|date }}</span
+                      >
+                    </div>
+                  </li>
+
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Ism</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block">{{ profile.first_name }}</span>
+                    </div>
+                  </li>
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Familiya</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block">{{ profile.last_name }}</span>
+                    </div>
+                  </li>
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Otasining ismi</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block">{{ profile.patronymic }}</span>
+                    </div>
+                  </li>
+
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Telegram id</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block"> {{ profile.telegram_id }}</span>
+                    </div>
+                  </li>
+
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Email</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block"> {{ profile.email }}</span>
+                    </div>
+                  </li>
+
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Telefon Raqam</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block">{{ profile.phone }}</span>
+                    </div>
+                  </li>
+
+                  <li
+                    class="text-lg text-contentColor dark:text-contentColor-dark leading-1.67 grid grid-cols-1 md:grid-cols-12 gap-x-30px mt-15px"
+                  >
+                    <div class="md:col-start-1 md:col-span-4">
+                      <span class="inline-block">Bio</span>
+                    </div>
+                    <div class="md:col-start-5 md:col-span-8">
+                      <span class="inline-block"
+                        >{{ profile.bio }}</span
+                      >
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}

@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.contrib import messages
 from django.contrib.auth import authenticate
@@ -7,9 +8,10 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from .utils import generate_code
 
+
 from accounts.management.commands.run_bot import bot
 from .models import User
-from .forms import GetCodeForm
+from .forms import GetCodeForm, UserProfileForm
 
 class AuthUserView(View):
     def get(self, request):
@@ -61,3 +63,25 @@ def logout_view(request):
         return redirect('main:home')
     else:
         return HttpResponse("error")
+    
+class UserProfile(LoginRequiredMixin, View):
+    def get(self, request):
+        profile = get_object_or_404(User, id = request.user.id)
+        context = {
+            'profile':profile
+        }
+        return render(request, 'accounts/profile.html', context)
+
+class ChangeProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        user = get_object_or_404(User, id = request.user.id)
+        form = UserProfileForm(instance=user)
+        return render(request, 'accounts/profile_change.html', {'form':form})
+    
+    def post(self, request):
+        user = get_object_or_404(User, id = request.user.id)
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:profile')
+        return render(request, 'accounts/profile_change.html', {'form':form})

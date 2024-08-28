@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Profile | {{ profile.get_full_name }} {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    {% include 'includes/user_banner.html' %}
+    <!--dashbord menu section -->
+    <section>
+        <div class="container-fluid-2">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-30px pt-30px pb-100px">
+                {% include 'includes/profile_left.html' %}
+                <!-- dashboard content -->
+                <div class="lg:col-start-4 lg:col-span-9">
+                    <!-- setting area -->
+                    <div
+                        class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+                        <!-- heading -->
+                        <div class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+                            <h2 class="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
+                                My Profile
+                            </h2>
+                        </div>
+                        <div class="transition-all duration-300">
+                            <form method="post" class="text-sm text-blackColor dark:text-blackColor-dark leading-1.8" enctype="multipart/form-data"
+                                data-aos="fade-up"> {% csrf_token %}
+                                <div class="grid grid-cols-1 xl:grid-cols-2 mb-15px gap-y-15px gap-x-30px">
+                                    <div>
+                                        <label class="mb-3 block font-semibold">Ism</label>
+                                        {% render_field form.first_name type="text" class+="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no" %}
+                                    </div>
+                                    <div>
+                                        <label class="mb-3 block font-semibold">Familiya</label>
+                                        {% render_field form.last_name type="text" class+="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no" %}
+
+                                    </div>
+                                    <div>
+                                        <label class="mb-3 block font-semibold">Otasining Ismi</label>
+                                        {% render_field form.patronymic type="text" class+="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no" %}
+                                    </div>
+                                    <div>
+                                        <label class="mb-3 block font-semibold">Email</label>
+                                        {% render_field form.email type="email" class+="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no" %}
+                                    </div>
+                                    <div>
+                                        <label class="mb-3 block font-semibold">Rasm</label>
+                                        {% render_field form.image type="file" class+="w-full py-10px px-5 text-sm focus:outline-none text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md font-no" %}
+                                    </div>
+                                </div>
+                                <div class="mb-15px">
+                                    <label class="mb-3 block font-semibold">Bio</label>
+                                    
+                                        {% render_field form.bio cols="50" rows="10" class+="w-full py-10px px-5 text-sm text-contentColor dark:text-contentColor-dark bg-whiteColor dark:bg-whiteColor-dark border-2 border-borderColor dark:border-borderColor-dark placeholder:text-placeholder placeholder:opacity-80 leading-23px rounded-md" %}
+
+                                </div>
+                                
+
+                                <div class="mt-15px">
+                                    <button type="submit"
+                                        class="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark">
+                                        Yangilash
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
