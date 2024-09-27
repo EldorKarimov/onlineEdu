@@ -122,7 +122,7 @@ if DEBUG:
     STATICFILES_DIRS = [BASE_DIR / 'static']
 else:
     STATIC_ROOT = BASE_DIR / 'static'
-    CSRF_TRUSTED_ORIGINS = config('YOUR_DOMAIN')
+    CSRF_TRUSTED_ORIGINS = config('ALLOWED_HOSTS', cast=Csv())
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
