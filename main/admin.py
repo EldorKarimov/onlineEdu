@@ -17,4 +17,10 @@ class LessonAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('title', )}
     list_editable = ('is_open', )
 
-admin.site.register([Module, FileLesson, UserLessonProgress, QuestionAnswer])
+@admin.register(Module)
+class ModuleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course')
+    search_fields = ('name', )
+    list_filter = ('course', )
+    prepopulated_fields = ({'slug':('name', )})
+admin.site.register([FileLesson, UserLessonProgress, QuestionAnswer])
