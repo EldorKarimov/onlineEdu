@@ -46,6 +46,13 @@ class Course(BaseModel):
     def get_link(self):
         return reverse('main:course_detail', kwargs={'course_slug': self.slug})
     
+    def get_lessons_count(self):
+        modules = Module.objects.filter(course = self)
+        lesson_count = 0
+        for module in modules:
+            lesson_count += Lesson.objects.filter(module = module).count()
+        return lesson_count
+    
     class Meta:
         verbose_name = _("course")
         verbose_name_plural = _("courses")

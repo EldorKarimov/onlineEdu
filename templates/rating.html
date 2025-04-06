@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    <div class="container py-5">
+        <div class="leaderboard-header text-center">
+            <h1 class="display-4 mb-3">Peshqadamlar jadvali</h1>
+            <p class="lead">Barcha testlarning eng yaxshi ijrochilari</p>
+        </div>
+
+        <!-- Top 3 Cards -->
+        <div class="row top-three justify-content-center">
+            <!-- Second Place -->
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 second-place">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">#2</h5>
+                        <h4 class="card-text">{{ top_users.1.name }}</h4>
+                        <div class="display-6 my-3">{{ top_users.1.total_xp }} XP</div>
+                        <small>O'rtacha: {{ top_users.1.avg_score }}%</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- First Place -->
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 first-place">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">#1</h5>
+                        <h3 class="card-text">{{ top_users.0.name }}</h3>
+                        <div class="display-5 my-3">{{ top_users.0.total_xp }} XP</div>
+                        <small>O'rtacha: {{ top_users.0.avg_score }}%</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Place -->
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 third-place">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">#3</h5>
+                        <h4 class="card-text">{{ top_users.2.name }}</h4>
+                        <div class="display-6 my-3">{{ top_users.2.total_xp }} XP</div>
+                        <small>O'rtacha: {{ top_users.2.avg_score }}%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Leaderboard Table -->
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title mb-4">To'liq peshqadamlar</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Rank</th>
+                                <th>F.I.SH</th>
+                                <th>Testlar</th>
+                                <th>Yechilganlar</th>
+                                <th>Jami XP</th>
+                                <th>O'rtacha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in top_users %}
+                            <tr>
+                                <td><span class="rank-badge {% if forloop.counter == 1 %}bg-primary{% elif forloop.counter == 2 %}bg-secondary{% else %}bg-danger{% endif %}">{{ user.rank }}</span></td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.challenges }}</td>
+                                <td>{{ user.solved }}</td>
+                                <td>{{ user.total_xp }}</td>
+                                <td>{{ user.avg_score }}%</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            {% for user in other_users %}
+                            <tr>
+                                <td><span class="rank-badge bg-info">{{ user.rank }}</span></td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.challenges }}</td>
+                                <td>{{ user.solved }}</td>
+                                <td>{{ user.total_xp }}</td>
+                                <td>{{ user.avg_score }}%</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

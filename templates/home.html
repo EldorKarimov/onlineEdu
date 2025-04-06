@@ -338,7 +338,7 @@
                         <div>
                           <span
                             class="text-sm text-black dark:text-blackColor-dark"
-                            >23 Lesson</span
+                            >{{ course.get_lessons_count }} Darslar</span
                           >
                         </div>
                       </div>
@@ -351,13 +351,13 @@
                         <div>
                           <span
                             class="text-sm text-black dark:text-blackColor-dark"
-                            >1 hr 30 min</span
+                            >{{ course.get_hours }} soat {{ course.get_minutes }} min</span
                           >
                         </div>
                       </div>
                     </div>
                     <a
-                      href="course-details.html"
+                      href="{{ course.get_link }}"
                       class="text-xl font-semibold text-blackColor mb-10px font-hind dark:text-blackColor-dark hover:text-primaryColor dark:hover:text-primaryColor"
                     >
                       {{ course.title }}
@@ -370,7 +370,7 @@
                     >
                       <div>
                         <a
-                          href="instructor-details.html"
+                          href="#"
                           class="text-base font-bold font-hind flex items-center hover:text-primaryColor dark:text-blackColor-dark dark:hover:text-primaryColor"
                           ><img
                             class="w-[30px] h-[30px] rounded-full mr-15px"

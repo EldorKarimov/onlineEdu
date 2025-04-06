@@ -6,9 +6,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
+from django.db.models import Sum, Count, Avg
+
 from .forms import *
 from common.permissions import AdminLoginRequiredMixin
 from common.utils import file_checker
+from quiz.models import MyQuiz, Result
+
+User = get_user_model()
 
 class HomePageView(View):
     def get(self, request):
@@ -18,6 +24,70 @@ class HomePageView(View):
             'courses':courses,
         })
         return render(request, 'home.html', context)
+    
+class StudentDashboardView(LoginRequiredMixin, View):
+    def get(self, request, telegram_id):
+        user = get_object_or_404(User, telegram_id=telegram_id)
+        
+        
+        results = Result.objects.filter(user=user).order_by('quiz', 'created')
+        
+        
+        seen_quizzes = set()
+        first_attempts = []
+        
+        for result in results:
+            if result.quiz_id not in seen_quizzes:
+                first_attempts.append(result)
+                seen_quizzes.add(result.quiz_id)
+        
+       
+        quiz_labels = [result.quiz.title for result in first_attempts]
+        quiz_percentages = [result.get_percentage for result in first_attempts]
+        
+        context = {
+            'student': user,
+            'quiz_labels': quiz_labels,
+            'quiz_percentages': quiz_percentages,
+            'first_attempts': first_attempts,
+        }
+        
+        return render(request, 'student_dashboard.html', context)
+    
+class RatingView(LoginRequiredMixin, View):
+    def get(self, request):
+        
+        users = User.objects.annotate(
+            total_quizzes=Count('result', distinct=True),
+            total_xp=Sum('result__correct_questions'),  # Using correct_answers as XP
+            avg_score=Avg('result__correct_questions') * 100 / Avg('result__total_questions')
+        ).exclude(total_quizzes=0).order_by('-total_xp')
+        
+        leaderboard = []
+        for rank, user in enumerate(users, start=1):
+            user_results = Result.objects.filter(user=user)
+            
+            leaderboard.append({
+                'rank': rank,
+                'name': user.get_full_name() or user.username,
+                'challenges': user.total_quizzes,
+                'solved': user.total_quizzes,  # Assuming all taken quizzes were solved
+                'total_xp': user.total_xp,
+                'avg_score': round(user.avg_score, 2) if user.avg_score else 0,
+                'user_obj': user  # For potential additional user data
+            })
+        
+        # Split into top 3 and others
+        top_users = leaderboard[:3]
+        other_users = leaderboard[3:8]  # Showing next 5 users
+        
+        context = {
+            'top_users': top_users,
+            'other_users': other_users,
+            'total_users': len(leaderboard)
+        }
+        
+        return render(request, 'rating.html', context)
 
 class CourseDetailView(View):
     def get(self, request, course_slug):
@@ -27,14 +97,11 @@ class CourseDetailView(View):
         is_written_to_course = False
         if UserLessonProgress.objects.filter(user = request.user).exists():
             is_written_to_course = True
-        lesson_count = 0
-        for module in modules:
-            lesson_count += Lesson.objects.filter(module = module).count()
         # modules = Module.objects.filter(course = course)
         context.update({
             'course':course,
             # 'modules': modules,
-            'lesson_count':lesson_count,
+            'lesson_count':course.get_lessons_count,
             "is_written_to_course": is_written_to_course
         })
         return render(request, 'courses/course-detail.html', context)

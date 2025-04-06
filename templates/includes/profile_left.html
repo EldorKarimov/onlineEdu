@@ -14,7 +14,7 @@
           class="py-10px border-b border-borderColor dark:border-borderColor-dark"
         >
           <a
-            href="instructor-dashboard.html"
+            href="{% url 'main:student_dashboard' request.user.telegram_id %}"
             class="text-contentColor dark:text-contentColor-dark hover:text-primaryColor dark:hover:text-primaryColor leading-1.8 flex gap-3 text-nowrap"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@
           class="py-10px border-b border-borderColor dark:border-borderColor-dark"
         >
           <a
-            href="instructor-profile.html"
+            href="{% url 'accounts:profile' %}"
             class="text-primaryColor hover:text-primaryColor dark:hover:text-primaryColor leading-1.8 flex gap-3 text-nowrap"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
