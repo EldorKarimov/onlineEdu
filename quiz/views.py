@@ -7,12 +7,19 @@ from main.models import *
 
 from .models import *
 
+class MyQuizDetailView(LoginRequiredMixin, View):
+    def get(self, request, course_slug, quiz_id):
+        quiz = get_object_or_404(MyQuiz, id = quiz_id)
+        context = {
+            'quiz':quiz
+        }
+        return render(request, "quiz/quiz-detail.html", context)
+
 class MyQuizView(LoginRequiredMixin, View):
     def get(self, request, course_slug, quiz_id):
         quiz = get_object_or_404(MyQuiz, id = quiz_id)
-        questions = Question.objects.filter(quiz = quiz)
-        questions_count = questions.count()
-        questions = random.sample(list(questions), len(questions))
+        questions = quiz.get_questions
+        questions_count = 10
         results = Result.objects.filter(quiz = quiz, user = request.user)
         
         context = {

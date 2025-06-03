@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ lesson.title }} {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+  <!-- quiz section -->
+  <section>
+    <div class="container-fluid-2 py-100px">
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
+        {% include 'includes/lesson-left.html'%}
+        <!-- quiz right -->
+        <div
+          class="xl:col-start-5 xl:col-span-8 relative"
+          data-aos="fade-up"
+        >
+
+        <div>
+          <ul class="flex flex-wrap items-center gap-x-1">
+            <li
+              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
+            >
+              Savollar soni: {{ questions_count }} |
+            </li>
+            <li
+              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
+            >
+              Vaqt: {{ quiz.duration_time }} Min
+            </li>
+          </ul>
+        </div>
+            <a href="{{ quiz.get_url }}" class="btn btn-outline-primary">Boshlash</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

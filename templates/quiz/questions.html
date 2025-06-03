@@ -45,13 +45,23 @@
             >
             {% for answer in question.answer_set.all %}
               <li class="flex items-center gap-x-2">
+                {% if question.is_multiple_choice %}
                 <input
                   class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
+                  type="checkbox"
+                  value="{{ answer.id }}"
+                  id="{{ answer.id }}"
+                  name="{{ question.id }}[]"
+                >
+                {% else %}
+                  <input
+                  class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
                   type="radio"
-                  value="{{ answer.is_correct }}"
+                  value="{{ answer.id }}"
                   id="{{ answer.id }}"
                   name="{{ question.id }}"
-                >
+                  >
+                {% endif %}
 
                 <label
                   for="{{ answer.id }}"

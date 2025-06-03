@@ -86,9 +86,9 @@
                   <div class="text-blackColor dark:text-blackColor-dark text-sm flex items-center">
                 
                     {% if progress.is_open and lesson.myquiz.is_open %}
-                    <a href="{{ lesson.myquiz.get_url }}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
+                    <a href="{% url 'quiz_details' lesson.module.course.slug lesson.myquiz.id %}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
                       <p class="px-10px">
-                         Boshlash
+                         Ko'rish
                       </p>
                     </a>
                     {% else %}
