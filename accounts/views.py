@@ -55,7 +55,8 @@ class AuthUserView(View):
                     password = generate_code()
                 )
         login(request, user)
-        return redirect('main:home')
+        login_redirect_path = request.GET.get("next", "/")
+        return redirect(login_redirect_path)
     
 def logout_view(request):
     if request.method == 'POST':

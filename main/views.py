@@ -89,7 +89,7 @@ class RatingView(LoginRequiredMixin, View):
         
         return render(request, 'rating.html', context)
 
-class CourseDetailView(View):
+class CourseDetailView(LoginRequiredMixin, View):
     def get(self, request, course_slug):
         context = {}
         course = get_object_or_404(Course, slug = course_slug)
