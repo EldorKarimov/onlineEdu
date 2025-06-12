@@ -118,7 +118,7 @@ class FileLesson(BaseModel):
     file = models.FileField(_('file'), validators=[
         FileExtensionValidator(allowed_extensions=['doc', 'docx', 'pdf', 'ppt', 'pptx'])
     ])
-    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name="file_lessons_by_module", verbose_name="module")
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, null=True, related_name="file_lessons_by_module", verbose_name="module")
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 
     def __str__(self):
