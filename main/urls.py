@@ -10,5 +10,6 @@ urlpatterns = [
     path('qa/admin/', views.QuestionAnswerAdmin.as_view(), name='qaAdmin'),
     path('question/delete/<int:question_id>/', views.delete_question, name='delete_question'),
     path('answer/to/question/<int:question_id>/', views.AnswerTheQuestion.as_view(), name='answer_to_question'),
-    path('rating/', views.RatingView.as_view(), name='rating')
+    path('rating/', views.RatingView.as_view(), name='rating'),
+    path("assignments/<slug:course_slug>/<slug:module_slug>", views.FileLessonView.as_view(), name="assignments")
 ]

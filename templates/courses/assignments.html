@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %} Materiallar {% endblock %}
+
+{% block content %}
+
+<main class="bg-transparent">
+<section>
+        <div class="container-fluid-2 py-100px">
+          <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
+            <!-- assignment left -->
+            {% include 'includes/lesson-left.html' %}
+            <!-- assignment right -->
+            <div
+              class="xl:col-start-5 xl:col-span-8 relative"
+              data-aos="fade-up"
+            >
+              <div>
+                <h4
+                  class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark"
+                >
+                  Modulga oid materiallar
+                </h4>
+                <hr class="border-borderColor2 dark:opacity-30 my-4" >
+                <div class="overflow-auto">
+                  <table class="w-full text-left text-nowrap">
+                    <thead
+                      class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8"
+                    >
+                      <tr>
+                        <th class="px-5px py-10px md:px-5">Fayl nomi</th>
+                        <th class="px-5px py-10px md:px-5">Qaysi darsdanligi</th>
+                        <th class="px-5px py-10px md:px-5">Yuklab olish</th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal"
+                    >
+                    {% for assign in assignments %}
+                      <tr class="leading-1.8 md:leading-1.8">
+                        <th class="px-5px py-10px md:px-5 font-normal">
+                          <span
+                            class="text-blackColor dark:text-blackColor-dark font-bold"
+                            >{{ assign.name }}</span
+                          >
+                          <p>
+                            Kurs:
+                            <a
+                              class="text-blackColor dark:text-blackColor-dark"
+                              href="#"
+                              >{{ assign.module.course.title }}</a
+                            >
+                          </p>
+                        </th>
+                        <td class="px-5px py-10px md:px-5">
+                          <p>{{ assign.lesson.title }}</p>
+                        </td>
+
+                        <td class="px-5px py-10px md:px-5">
+                          <div class="dashboard__button__group">
+                            <a
+                              class="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-primaryColor bg-primaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-primaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
+                              href="{{ assign.file.url }}"
+                            >
+                              <i class="icofont-download"></i>
+                              Yuklash</a
+                            >
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</main>
+{% endblock %}

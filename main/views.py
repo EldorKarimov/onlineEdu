@@ -177,6 +177,7 @@ class LessonDetailView(LoginRequiredMixin, View):
             course__slug = course_slug
         )
         user_lesson_progress.is_completed = True
+        user_lesson_progress.is_open = True
         user_lesson_progress.save()
         try:
             my_quiz = lesson.myquiz
@@ -186,7 +187,7 @@ class LessonDetailView(LoginRequiredMixin, View):
             return redirect("main:lesson_detail", course_slug, module_slug, lesson_slug)
         except ObjectDoesNotExist:
             messages.success(request, "Tabriklayman! Darsni muvaffaqqiyatli tugatdingiz.")
-            next_lesson = Lesson.objects.filter(module__slug = module_slug, id__gt = lesson.id).order_by('id').first()
+            next_lesson = Lesson.objects.filter(module__course__slug = course_slug, id__gt = lesson.id).order_by('id').first()
             if next_lesson:
                 next_progress, created = UserLessonProgress.objects.get_or_create(
                     user = request.user,
@@ -242,3 +243,15 @@ class AnswerTheQuestion(AdminLoginRequiredMixin, View):
             form_save.save()
             return redirect('main:answer_to_question', question.id)
         return HttpResponse("Bad request")
+    
+
+class FileLessonView(LoginRequiredMixin, View):
+    def get(self, request, course_slug=None, module_slug=None):
+        try:
+            assignments = FileLesson.objects.filter(module__slug = module_slug)
+            context = {
+                "assignments":assignments
+            }
+            return render(request, "courses/assignments.html", context)
+        except Exception as e:
+            raise f"Xatolik yuz berdi! {e}"
