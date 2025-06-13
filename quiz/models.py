@@ -55,6 +55,7 @@ class Question(BaseModel):
     quiz = models.ForeignKey(MyQuiz, on_delete=models.CASCADE)
     is_multiple_choice = models.BooleanField(default=False, verbose_name=_("is multiple choice"))
     is_available = models.BooleanField(default=True, verbose_name=_("is available"))
+    mark = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -66,6 +67,14 @@ class Question(BaseModel):
         random.shuffle(answers)
         return answers
     
+    def get_mark(self, question):
+        correct_answers_count = Answer.objects.filter(question = question, is_correct = True).count()
+        if correct_answers_count == 0:
+            return 1
+        mark = self.mark / correct_answers_count
+        return mark
+
+
 class Answer(BaseModel):
     name = models.CharField(max_length=150, unique=True)
     is_correct = models.BooleanField(default=False)
@@ -77,14 +86,14 @@ class Answer(BaseModel):
 class UserAttempt(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
     test = models.ForeignKey(MyQuiz, on_delete=models.CASCADE, related_name="user_attempts", verbose_name=_("test"))
-    score = models.IntegerField(_("score"))
+    score = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("score"))
     time_taken = models.DurationField(_("time taken"))
     date_taken = models.DateTimeField(auto_now_add=True, verbose_name=_("date taken"))
     is_started = models.BooleanField(default=False, verbose_name=_('is started'))
     is_completed = models.BooleanField(default=False, verbose_name=_('is completed'))
 
     def __str__(self):
-        return f"{self.user.get_full_name}-{self.test.title}"
+        return f"{self.user.get_full_name()}-{self.test.title}"
     
     @property
     def get_time_taken(self):
@@ -102,7 +111,7 @@ class Result(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(MyQuiz, on_delete=models.SET_NULL, null=True, blank=True)
     total_questions = models.PositiveIntegerField()
-    correct_questions = models.PositiveIntegerField()
+    correct_questions = models.DecimalField(max_digits=10, decimal_places=2)
     is_pass = models.BooleanField(default=False)
 
     def __str__(self):

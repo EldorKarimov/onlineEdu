@@ -22,7 +22,13 @@
               <h3 class="sm:text-size-22 font-bold">
                 {{ lesson.title }}
               </h3>
-              <a href="{% url 'main:home' %}" class="">Yopish</a>
+              <form action="" method="post">
+                {% csrf_token %}
+                <button
+                  class="btn btn-outline-primary" style="color: white;">
+                  Darsni Yakunlash
+                </button>
+              </form>
             </div>
 
             <div class="aspect-[16/9]">
@@ -45,13 +51,7 @@
                     >
                       Savol So'rash
                     </button>
-                    <form action="" method="post">
-                      {% csrf_token %}
-                      <button
-                      class="is-checked relative py-10px px-5 md:py-15px lg:px-10 font-bold uppercase text-sm lg:text-base text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 whitespace-nowrap">
-                      Darsni Yakunlash
-                    </button>
-                    </form>
+                    
                     
 
                   </div>

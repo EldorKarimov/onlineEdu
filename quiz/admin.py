@@ -15,7 +15,7 @@ class AnswerAdmin(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("name", "quiz")
+    list_display = ("name", "quiz", "mark")
     list_filter = ("quiz", )
     search_fields = ("name", )
     ordering = ("-created", )
@@ -27,3 +27,14 @@ class ResultAdmin(admin.ModelAdmin):
     ordering = ('-correct_questions', )
     list_filter = ("user", "quiz")
     search_fields = ("user__first_name", "user__last_name", "quiz__title")
+
+@admin.register(UserAttempt)
+class UserAttemptAdmin(admin.ModelAdmin):
+    list_display = ('user', 'test', 'score', 'get_time_taken', 'is_started', 'is_completed')
+
+
+@admin.register(UserAnswer)
+class UserAttemptAdmin(admin.ModelAdmin):
+    list_display = ("attempt", "question")
+    list_filter = ("attempt", )
+    search_fields = ("question",)

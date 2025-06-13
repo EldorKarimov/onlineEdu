@@ -51,7 +51,7 @@
                   type="checkbox"
                   value="{{ answer.id }}"
                   id="{{ answer.id }}"
-                  name="{{ question.id }}[]"
+                  name="question_{{ question.id }}"
                 >
                 {% else %}
                   <input
@@ -59,7 +59,7 @@
                   type="radio"
                   value="{{ answer.id }}"
                   id="{{ answer.id }}"
-                  name="{{ question.id }}"
+                  name="question_{{ question.id }}"
                   >
                 {% endif %}
 
