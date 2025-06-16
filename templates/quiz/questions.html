@@ -10,159 +10,107 @@
       <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
         {% include 'includes/lesson-left.html'%}
         <!-- quiz right -->
-        <div
-          class="xl:col-start-5 xl:col-span-8 relative"
-          data-aos="fade-up"
-        >
+        <div class="xl:col-start-5 xl:col-span-8 relative" data-aos="fade-up">
 
-        <div>
-          <ul class="flex flex-wrap items-center gap-x-1">
-            <li
-              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
-            >
-              Savollar soni: {{ quiz.number_of_questions }} |
-            </li>
-            <li
-              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
-            >
-              Vaqt: {{ quiz.duration_time }} Min
-            </li>
-          </ul>
-        </div>
+          <div>
+            <ul class="flex flex-wrap items-center gap-x-1">
+              <li class="text-bodyColor dark:text-bodyColor-dark leading-1.8">
+                <h1><div id="timer" style="font-size: 24px;"></div></h1>
+              </li>
+            </ul>
+          </div>
           <!-- question 1 -->
-           <form action="" method="post">
+          <form id="testForm" action="" method="post">
             {% csrf_token %}
             {% for question in questions %}
-          <div>
-            <hr class="border-borderColor2 dark:opacity-30 my-4" >
-            <h4
-              class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px"
-            >
-              {{ forloop.counter }}. {{ question.name }} 
-            </h4>
-            <ul
-              class="grid grid-cols-1 md:grid-cols-2 gap-y-0.5 gap-x-30px"
-            >
-            {% for answer in question.answer_set.all %}
-              <li class="flex items-center gap-x-2">
-                {% if question.is_multiple_choice %}
-                <input
-                  class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
-                  type="checkbox"
-                  value="{{ answer.id }}"
-                  id="{{ answer.id }}"
-                  name="question_{{ question.id }}"
-                >
-                {% else %}
+            <div>
+              <hr class="border-borderColor2 dark:opacity-30 my-4">
+              <h4
+                class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px">
+                {{ forloop.counter }}. {{ question.name }}
+              </h4>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-0.5 gap-x-30px">
+                {% for answer in question.answer_set.all %}
+                <li class="flex items-center gap-x-2">
+                  {% if question.is_multiple_choice %}
                   <input
-                  class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
-                  type="radio"
-                  value="{{ answer.id }}"
-                  id="{{ answer.id }}"
-                  name="question_{{ question.id }}"
-                  >
-                {% endif %}
+                    class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
+                    type="checkbox" value="{{ answer.id }}" id="{{ answer.id }}" name="question_{{ question.id }}">
+                  {% else %}
+                  <input
+                    class="relative w-4 h-4 z-0 rounded after:absolute after:w-4 after:h-4 after:left-0 after:top-0 block after:-z-1 after:rounded after:focus:shadow-select box-content"
+                    type="radio" value="{{ answer.id }}" id="{{ answer.id }}" name="question_{{ question.id }}">
+                  {% endif %}
 
-                <label
-                  for="{{ answer.id }}"
-                  class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
-                >
-                  {{ answer.name }}
-                </label>
-              </li>
+                  <label for="{{ answer.id }}" class="text-bodyColor dark:text-bodyColor-dark leading-1.8">
+                    {{ answer.name }}
+                  </label>
+                </li>
+                <br>
+                {% endfor %}
+              </ul>
               <br>
-            {% endfor %}
-            </ul>
-            <br >
-            <br >
-            <br >
-          </div>
-          {% endfor %}
-          <div>
-            <button
-              type="submit"
-              class="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark"
-            >
-              Testni tugatish <i class="icofont-long-arrow-right"></i>
-            </button>
-          </div>
-           </form>
-           
-          <br ><br ><br >
-          <div>
-            <h4
-              class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px"
-            >
-              Test Natijalari
-            </h4>
-            <div class="overflow-auto">
-              <table class="w-full text-left text-nowrap">
-                <thead
-                  class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8"
-                >
-                  <tr>
-                    <th class="px-5px py-10px md:px-5">Test</th>
-                    <th class="px-5px py-10px md:px-5">Savollar</th>
-                    <th class="px-5px py-10px md:px-5">To'g'ri javoblar</th>
-                    <th class="px-5px py-10px md:px-5">Natija</th>
-                    <th class="px-5px py-10px md:px-5">O'tish</th>
-                  </tr>
-                </thead>
-                <tbody
-                  class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal"
-                >
-                {% for result in results %}
-                  <tr class="leading-1.8 md:leading-1.8">
-                    <th class="px-5px py-10px md:px-5 font-normal">
-                      <p>{{ result.created |date}}</p>
-                      <span
-                        class="text-blackColor dark:text-blackColor-dark font-bold"
-                        >{{ result.quiz.title }}</span
-                      >
-                      <p>
-                        Talaba:
-                        <a
-                          class="text-blackColor dark:text-blackColor-dark"
-                          href="#"
-                          >{{ result.user.get_full_name }}</a
-                        >
-                      </p>
-                    </th>
-                    <td class="px-5px py-10px md:px-5">
-                      <p>{{ questions_count }}</p>
-                    </td>
-                    <td class="px-5px py-10px md:px-5">
-                      <p>{{ result.correct_questions }}</p>
-                    </td>
-                    <td class="px-5px py-10px md:px-5">
-                      <p>{{ result.get_percentage }}%</p>
-                    </td>
-                    <td class="px-5px py-10px md:px-5">
-                      {% if result.is_pass %}
-                      <p class="text-xs">
-                        <span
-                          class="h-22px inline-block px-7px bg-greencolor2 leading-22px font-bold text-whiteColor rounded-md"
-                          >O'tdi</span
-                        >
-                      </p>
-                      {% else %}
-                      <p class="text-xs">
-                        <span
-                          class="h-22px inline-block px-7px bg-greencolor2 leading-22px font-bold text-whiteColor rounded-md"
-                          >O'tmadi</span
-                        >
-                      </p>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+              <br>
+              <br>
             </div>
-          </div>
+            {% endfor %}
+            <div>
+              <button type="submit"
+                class="text-size-15 text-whiteColor bg-primaryColor px-25px py-10px border border-primaryColor hover:text-primaryColor hover:bg-whiteColor inline-block rounded group dark:hover:text-whiteColor dark:hover:bg-whiteColor-dark">
+                Testni tugatish <i class="icofont-long-arrow-right"></i>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </section>
 </main>
+
+<script>
+    var countdown;
+    var timerElement = document.getElementById("timer");
+
+    function updateTimer() {
+        var minutes = Math.floor(countdown / 60);
+        var seconds = countdown % 60;
+        timerElement.innerHTML = "<b>Test Tugashiga: </b><span style='color:#7ccb11; font-weight:bold;'>" 
+    + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "</span><b> vaqt qoldi</b>";
+
+    }
+
+    function submitFormOnTimeout() {
+        // Formni yuborishdan oldin localStorage vaqtini o'chirish
+        localStorage.removeItem("quiz_start_time");
+        document.getElementById("testForm").submit();
+    }
+
+    function startTimer() {
+        var initialStartTime = localStorage.getItem("quiz_start_time");
+        if (!initialStartTime) {
+            // Agar localStorage'da vaqt topilmasa, yangi vaqtni saqlash
+            localStorage.setItem("quiz_start_time", new Date().toISOString());
+            initialStartTime = localStorage.getItem("quiz_start_time");
+        }
+
+        countdown = Math.max(60 * {{ quiz.duration_time }} - Math.floor((new Date() - new Date(initialStartTime)) / 1000), 0);
+
+        var timer = setInterval(function () {
+            updateTimer();
+            countdown--;
+
+            if (countdown < 0) {
+                clearInterval(timer);
+                submitFormOnTimeout();
+            }
+        }, 1000);
+
+        // Yakunlash tugmasi bosilganda localStorage o'chirilsin
+        document.getElementById("submitBtn").addEventListener("click", function () {
+            localStorage.removeItem("quiz_start_time");
+        });
+    }
+
+    window.onload = startTimer;
+</script>
 {% endblock %}

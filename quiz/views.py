@@ -14,8 +14,10 @@ from .models import *
 class MyQuizDetailView(LoginRequiredMixin, View):
     def get(self, request, course_slug, quiz_id):
         quiz = get_object_or_404(MyQuiz, id = quiz_id)
+        results = Result.objects.filter(quiz = quiz, user = request.user)
         context = {
-            'quiz':quiz
+            'quiz':quiz,
+            'results':results,
         }
         return render(request, "quiz/quiz-detail.html", context)
 
@@ -23,7 +25,7 @@ class MyQuizView(LoginRequiredMixin, View):
     def get(self, request, course_slug, quiz_id):
         quiz = get_object_or_404(MyQuiz, id = quiz_id)
         questions = quiz.get_questions
-        results = Result.objects.filter(quiz = quiz, user = request.user)
+        
 
         if cache.get(f"{request.user.telegram_id}_{quiz.id}_questions") is None:
             cache.set(f"{request.user.telegram_id}_{quiz.id}_questions", questions, timeout=60*quiz.duration_time + 30)
@@ -32,7 +34,7 @@ class MyQuizView(LoginRequiredMixin, View):
         attempt_count = UserAttempt.objects.filter(user = request.user, test = quiz, is_completed = True).count()
         if attempt_count >= quiz.attempts_allowed:
             messages.error(request, f"Testga {quiz.attempts_allowed} marta urinish berilgan sizning urinishingiz tugadi.")
-            return redirect('quiz:test_detail', quiz.id)
+            return redirect('quiz_details', quiz.lesson.module.course.slug, quiz.id)
         
         user_attempt, created = UserAttempt.objects.get_or_create(
             user = request.user,
@@ -45,7 +47,6 @@ class MyQuizView(LoginRequiredMixin, View):
         context = {
             "questions":cached_questions,
             "quiz":quiz,
-            "results":results,
             "question_count":len(cached_questions),
         }
         return render(request, "quiz/questions.html", context)

@@ -10,27 +10,101 @@
       <div class="grid grid-cols-1 xl:grid-cols-12 gap-30px">
         {% include 'includes/lesson-left.html'%}
         <!-- quiz right -->
-        <div
-          class="xl:col-start-5 xl:col-span-8 relative"
-          data-aos="fade-up"
-        >
+        <div class="xl:col-start-5 xl:col-span-8 relative" data-aos="fade-up">
 
-        <div>
-          <ul class="flex flex-wrap items-center gap-x-1">
-            <li
-              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
+          <div>
+            {% if messages %}
+            {% for mess in messages %}
+            <div class="alert alert-danger">
+              {{ mess }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <ul class="flex flex-wrap items-center gap-x-1">
+              <li class="text-bodyColor dark:text-bodyColor-dark leading-1.8">
+                <strong>Savollar soni: {{ quiz.number_of_questions }} ta |</strong>
+              </li>
+              <li class="text-bodyColor dark:text-bodyColor-dark leading-1.8">
+                <strong>{{ quiz.duration_time }} Min </strong>
+              </li>
+            </ul>
+          </div>
+
+          <a href="{{ quiz.get_url }}" class="btn btn-outline-primary">Boshlash</a>
+          <br><br>
+          <div>
+            <h4
+              class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px"
             >
-              Savollar soni: {{ questions_count }} |
-            </li>
-            <li
-              class="text-bodyColor dark:text-bodyColor-dark leading-1.8"
-            >
-              Vaqt: {{ quiz.duration_time }} Min
-            </li>
-          </ul>
+              Test Natijalari
+            </h4>
+            <div class="overflow-auto">
+              <table class="w-full text-left text-nowrap">
+                <thead
+                  class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8"
+                >
+                  <tr>
+                    <th class="px-5px py-10px md:px-5">Test</th>
+                    <th class="px-5px py-10px md:px-5">Savollar</th>
+                    <th class="px-5px py-10px md:px-5">To'g'ri javoblar</th>
+                    <th class="px-5px py-10px md:px-5">Natija</th>
+                    <th class="px-5px py-10px md:px-5">O'tish</th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal"
+                >
+                {% for result in results %}
+                  <tr class="leading-1.8 md:leading-1.8">
+                    <th class="px-5px py-10px md:px-5 font-normal">
+                      <p>{{ result.created |date}}</p>
+                      <span
+                        class="text-blackColor dark:text-blackColor-dark font-bold"
+                        >{{ result.quiz.title }}</span
+                      >
+                      <p>
+                        Talaba:
+                        <a
+                          class="text-blackColor dark:text-blackColor-dark"
+                          href="#"
+                          >{{ result.user.get_full_name }}</a
+                        >
+                      </p>
+                    </th>
+                    <td class="px-5px py-10px md:px-5">
+                      <p>{{ questions_count }}</p>
+                    </td>
+                    <td class="px-5px py-10px md:px-5">
+                      <p>{{ result.correct_questions }}</p>
+                    </td>
+                    <td class="px-5px py-10px md:px-5">
+                      <p>{{ result.get_percentage }}%</p>
+                    </td>
+                    <td class="px-5px py-10px md:px-5">
+                      {% if result.is_pass %}
+                      <p class="text-xs">
+                        <span
+                          class="h-22px inline-block px-7px bg-greencolor2 leading-22px font-bold text-whiteColor rounded-md"
+                          >O'tdi</span
+                        >
+                      </p>
+                      {% else %}
+                      <p class="text-xs">
+                        <span
+                          class="h-22px inline-block px-7px bg-greencolor2 leading-22px font-bold text-whiteColor rounded-md"
+                          >O'tmadi</span
+                        >
+                      </p>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-            <a href="{{ quiz.get_url }}" class="btn btn-outline-primary">Boshlash</a>
-        </div>
+
       </div>
     </div>
   </section>
