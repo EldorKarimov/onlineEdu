@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Tizim haqida {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    <!-- banner section -->
+    <section>
+        <!-- banner section -->
+        <div
+            class="bg-lightGrey10 dark:bg-lightGrey10-dark relative z-0 overflow-y-visible py-50px md:py-20 lg:py-100px 2xl:pb-150px 2xl:pt-40.5">
+            <!-- animated icons -->
+            <div>
+                <img class="absolute left-0 bottom-0 md:left-[14px] lg:left-[50px] lg:bottom-[21px] 2xl:left-[165px] 2xl:bottom-[60px] animate-move-var z-10"
+                    src="{% static 'assets/images/herobanner/herobanner__1.png' %}" alt=""><img
+                    class="absolute left-0 top-0 lg:left-[50px] lg:top-[100px] animate-spin-slow"
+                    src="{% static 'assets/images/herobanner/herobanner__2.png' %}" alt=""><img
+                    class="absolute right-[30px] top-0 md:right-10 lg:right-[575px] 2xl:top-20 animate-move-var2 opacity-50 hidden md:block"
+                    src="{% static 'assets/images/herobanner/herobanner__3.png' %}" alt="">
+
+                <img class="absolute right-[30px] top-[212px] md:right-10 md:top-[157px] lg:right-[45px] lg:top-[100px] animate-move-hor"
+                    src="{% static 'assets/images/herobanner/herobanner__5.png' %}" alt="">
+            </div>
+            <div class="container">
+                <div class="text-center">
+                    <h1
+                        class="text-3xl md:text-size-40 2xl:text-size-55 font-bold text-blackColor dark:text-blackColor-dark mb-7 md:mb-6 pt-3">
+                        Tizim haqida sahifasi
+                    </h1>
+                    <ul class="flex gap-1 justify-center">
+                        <li>
+                            <a href="{% url 'main:home' %}" class="text-lg text-blackColor2 dark:text-blackColor2-dark">Bosh sahifa <i
+                                    class="icofont-simple-right"></i></a>
+                        </li>
+                        <li>
+                            <span class="text-lg text-blackColor2 dark:text-blackColor2-dark">tizim haqida</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- overview section -->
+    <section>
+        <div class="container pb-50px md:pb-70px lg:pb-20 2xl:pb-70px">
+            <!-- overview tabs -->
+            <div data-aos="fade-up" class="tab">
+                <div class="tab-links flex flex-wrap md:flex-nowrap mb-10px lg:mb-50px rounded gap-10px lg:gap-35px">
+                    <button
+                        class="is-checked relative py-10px px-25px md:py-10px md:px-10 lg:py-15px lg:px-60px font-bold uppercase text-blackColor bg-whiteColor shadow-overview-button dark:bg-whiteColor-dark dark:text-blackColor-dark before:w-0 before:h-0.5 before:absolute before:-bottom-0.5 lg:before:bottom-0 before:left-0 before:bg-primaryColor hover:before:w-full before:transition-all before:duration-300 active">
+                        Tizim haqida
+                    </button>
+                </div>
+                <div class="tab-contents">
+                    <div>
+                        <p class="text-contentColor dark:text-contentColor-dark mb-25px">
+                            {{ about.content|safe }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+</main>
+{% endblock %}

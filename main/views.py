@@ -7,7 +7,11 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
-from django.db.models import Sum, Count, Avg
+from django.db.models import (
+    Count, Sum, Avg, ExpressionWrapper,
+    DecimalField, IntegerField, F
+)
+from django.db.models.functions import Cast
 
 from .forms import *
 from common.permissions import AdminLoginRequiredMixin
@@ -59,8 +63,18 @@ class RatingView(LoginRequiredMixin, View):
         
         users = User.objects.annotate(
             total_quizzes=Count('result', distinct=True),
-            total_xp=Sum('result__correct_questions'),  # Using correct_answers as XP
-            avg_score=Avg('result__correct_questions') * 100 / Avg('result__total_questions')
+
+            # total_xp: butun son (int)
+            total_xp=Cast(
+                Sum('result__correct_questions'),
+                output_field=IntegerField()
+            ),
+
+            # avg_score: 10^-2 aniqlikdagi Decimal
+            avg_score=ExpressionWrapper(
+                Avg('result__correct_questions') * 100 / Avg('result__total_questions'),
+                output_field=DecimalField(max_digits=5, decimal_places=2)
+            )
         ).exclude(total_quizzes=0).order_by('-total_xp')
         
         leaderboard = []
