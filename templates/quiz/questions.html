@@ -27,7 +27,7 @@
               <hr class="border-borderColor2 dark:opacity-30 my-4">
               <h4
                 class="text-2xl sm:text-size-28 font-bold leading-1.2 text-blackColor dark:text-blackColor-dark mb-15px">
-                {{ forloop.counter }}. {{ question.name }}
+                {{ forloop.counter }}. {{ question.name|safe }}
               </h4>
               <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-0.5 gap-x-30px">
                 {% for answer in question.answer_set.all %}
