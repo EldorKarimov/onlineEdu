@@ -76,8 +76,8 @@ class Question(BaseModel):
 
 
 class Answer(BaseModel):
-    name = models.CharField(max_length=150, unique=True)
-    is_correct = models.BooleanField(default=False)
+    name = models.CharField(max_length=150, verbose_name=_("name"))
+    is_correct = models.BooleanField(default=False, verbose_name=_("is correct"))
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name=_("question"))
 
     def __str__(self):
