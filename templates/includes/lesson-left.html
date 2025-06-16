@@ -207,7 +207,7 @@
                   <div class="text-blackColor dark:text-blackColor-dark text-sm flex items-center">
                 
                     {% if lesson.myquiz.is_open %}
-                    <a href="{% url 'my_quiz' lesson.myquiz.id %}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
+                    <a href="{% url 'my_quiz' lesson.module.course.slug lesson.myquiz.id %}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
                       <p class="px-10px">
                          Boshlash
                       </p>

@@ -3,6 +3,7 @@ from django.core.validators import MaxLengthValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 import random
+from ckeditor_uploader.fields import RichTextUploadingField
 
 from common.models import BaseModel
 from main.models import Lesson
@@ -51,7 +52,7 @@ class MyQuiz(BaseModel):
             return None
     
 class Question(BaseModel):
-    name = models.CharField(max_length=150, unique=True)
+    name = RichTextUploadingField()
     quiz = models.ForeignKey(MyQuiz, on_delete=models.CASCADE)
     is_multiple_choice = models.BooleanField(default=False, verbose_name=_("is multiple choice"))
     is_available = models.BooleanField(default=True, verbose_name=_("is available"))
