@@ -115,7 +115,7 @@ class CourseDetailView(LoginRequiredMixin, View):
         context.update({
             'course':course,
             # 'modules': modules,
-            'lesson_count':course.get_lessons_count,
+            'lesson_count':course.get_lessons_count(),
             "is_written_to_course": is_written_to_course,
             "entrolled_users_count":course.get_enrolled_users_count()
         })
