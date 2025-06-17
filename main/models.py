@@ -52,6 +52,10 @@ class Course(BaseModel):
         for module in modules:
             lesson_count += Lesson.objects.filter(module = module).count()
         return lesson_count
+
+    def get_enrolled_users_count(self):
+        """Returns the number of users enrolled in a course"""
+        return UserLessonProgress.objects.filter(course=self).values('user').distinct().count()
     
     class Meta:
         verbose_name = _("course")
