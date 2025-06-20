@@ -23,7 +23,7 @@ User = get_user_model()
 class HomePageView(View):
     def get(self, request):
         context = {}
-        courses = Course.objects.all().order_by('-created')
+        courses = Course.objects.all().order_by('created')
         context.update({
             'courses':courses,
         })
