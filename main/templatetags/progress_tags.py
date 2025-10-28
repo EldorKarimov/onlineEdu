@@ -1,5 +1,6 @@
 from django import template
 from main.models import UserLessonProgress
+from quiz.models import MyQuiz
 
 register = template.Library()
 
@@ -10,3 +11,8 @@ def get_user_progress(lesson, user):
         return progress
     except:
         return None
+    
+@register.simple_tag
+def get_first_quiz():
+    quiz = MyQuiz.objects.filter(quiz_type=1).last()
+    return quiz

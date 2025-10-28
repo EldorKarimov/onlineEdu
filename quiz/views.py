@@ -8,8 +8,56 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db import transaction
 from django.core.cache import cache
+from .forms import QuestionsAddForm
+from django import http
 
 from .models import *
+
+class QuizListView(LoginRequiredMixin, View):
+    def get(self, request):
+        tests = MyQuiz.objects.filter(is_available = True)
+        context = {
+            'tests': tests
+        }
+        return render(request, 'quiz/quiz-list.html', context)
+    
+class CreateQuestionView(LoginRequiredMixin, View):
+    def get(self, request, quiz_id):
+        form = QuestionsAddForm()
+        return render(request, 'quiz/add-questions.html', {'form':form})
+    
+    def post(self, request, quiz_id):
+        test = get_object_or_404(MyQuiz, id = quiz_id)
+        form = QuestionsAddForm(request.POST)
+        if form.is_valid():
+            questions_data = form.cleaned_data['questions']
+            try:
+                questions_answers = questions_data.strip().split('===')
+                
+                for block in questions_answers:  
+                    lines = block.strip().split("\n")
+                    question_text = lines[0].lstrip('#') 
+                    
+                    question = Question.objects.create(
+                        quiz = test,
+                        name = question_text
+                    )
+                    
+                    for line in lines[1:]:
+                        is_correct = line.startswith("+")  
+                        answer_text = line[1:].strip() 
+                        Answer.objects.create(
+                            question = question, 
+                            name = answer_text,
+                            is_correct = is_correct
+                        )
+
+                messages.success(request, "Savollar muvaffaqiyatli qo'shildi!")
+                return redirect('add_questions', test.id)
+            except Exception as e:
+                messages.error(request, f"Xato yuz berdi: {e}")
+                # return render(request, 'quiz/add-questions.html', {'form':form})
+                return http.HttpResponse(form)
 
 class MyQuizDetailView(LoginRequiredMixin, View):
     def get(self, request, course_slug, quiz_id):

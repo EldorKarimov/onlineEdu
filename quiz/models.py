@@ -29,7 +29,7 @@ class MyQuiz(BaseModel):
     attempts_allowed = models.IntegerField(help_text="Testni necha marta yechishga ruxsat beriladi", verbose_name=_("attemps allowed"))
     number_of_questions = models.IntegerField(default=1, verbose_name=_("number of questions"))
     is_available = models.BooleanField(default=False)
-    lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE, verbose_name = _("lesson"))
+    lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE, null=True, blank=True, verbose_name = _("lesson"))
     is_open = models.BooleanField(default=False)
     is_started = models.BooleanField(default=False, verbose_name=_("is started"))
     is_show_selected_ans = models.BooleanField(default=False, verbose_name=_("show selected answers"))
@@ -39,7 +39,17 @@ class MyQuiz(BaseModel):
         return self.title
     
     def get_url(self):
-        return reverse('my_quiz', kwargs={"course_slug": self.lesson.module.course.slug, "quiz_id":self.id})
+        # return reverse('my_quiz', kwargs={"course_slug": self.lesson.module.course.slug, "quiz_id":self.id})
+        if self.lesson and self.lesson.module and self.lesson.module.course:
+            course_slug = self.lesson.module.course.slug
+        else:
+            
+            course_slug = "assessment"
+
+        return reverse('my_quiz', kwargs={
+            "course_slug": course_slug,
+            "quiz_id": self.id
+        })
     
     @property
     def get_questions(self):

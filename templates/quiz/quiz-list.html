@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Profile | {{ profile.get_full_name }} {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    {% include 'includes/user_banner.html' %}
+
+    <!--dashbord menu section -->
+    <section>
+        <div class="container-fluid-2">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-30px pt-30px pb-100px">
+                {% include 'includes/profile_left.html' %}
+                <!-- dashboard content -->
+                <div class="lg:col-start-4 lg:col-span-9">
+                    <!-- profile details -->
+                    <div
+                        class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+                        <div class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+                            <h2 class="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
+                                Testlar Ro'yxati
+                            </h2>
+                        </div>
+
+                        <!-- content -->
+                        <div class="lg:col-start-4 lg:col-span-9">
+                            <!-- quize attempts area -->
+                            <div
+                                class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+                                <!-- heading -->
+                                <div class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+                                    <h2 class="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
+                                        Testlar ro'yxati
+                                    </h2>
+                                </div>
+
+                                <hr class="my-4 border-contentColor opacity-35">
+                                <!-- main content -->
+                                <div class="overflow-auto">
+                                    <table class="w-full text-left text-nowrap">
+                                        <thead
+                                            class="text-sm md:text-base text-blackColor dark:text-blackColor-dark bg-lightGrey5 dark:bg-whiteColor-dark leading-1.8 md:leading-1.8">
+                                            <tr>
+                                                <th class="px-5px py-10px md:px-5">Test</th>
+                                                <th class="px-5px py-10px md:px-5">O'tish bali</th>
+                                                <th class="px-5px py-10px md:px-5">Urinishlar</th>
+                                                <th class="px-5px py-10px md:px-5">Savollar</th>
+                                                <th class="px-5px py-10px md:px-5">Test turi</th>
+                                                <th class="px-5px py-10px md:px-5"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody
+                                            class="text-size-13 md:text-base text-contentColor dark:text-contentColor-dark font-normal">
+                                            {% for test in tests %}
+                                            <tr class="leading-1.8 md:leading-1.8">
+                                                <th class="px-5px py-10px md:px-5 font-normal text-wrap">
+                                                    <p>{{ test.created }}</p>
+                                                    <span class="text-blackColor dark:text-blackColor-dark font-bold">{{ test.title }}</span>
+                                                </th>
+                                                <td class="px-5px py-10px md:px-5">
+                                                    <p>{{ test.quiz_pass }}</p>
+                                                </td>
+                                                <td class="px-5px py-10px md:px-5">
+                                                    <p>{{ test.attempts_allowed }}</p>
+                                                </td>
+                                                <td class="px-5px py-10px md:px-5">
+                                                    <p>{{ test.number_of_questions }}</p>
+                                                </td>
+                                                <td class="px-5px py-10px md:px-5">
+                                                    <p class="text-xs">
+                                                        <span
+                                                            class="h-22px inline-block px-7px bg-greencolor2 leading-22px font-bold text-whiteColor rounded-md">
+                                                            {{ test.get_quiz_type_display }}</span>
+                                                    </p>
+                                                </td>
+                                                <td class="px-5px py-10px md:px-5">
+                                                    <div class="dashboard__button__group">
+                                                        <a class="flex items-center gap-1 text-sm font-bold text-whiteColor hover:text-primaryColor bg-primaryColor hover:bg-whiteColor dark:hover:bg-whiteColor-dark border border-primaryColor h-30px w-full px-14px leading-30px justify-center rounded-md my-5px"
+                                                            href="{% url 'add_questions' test.id %}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-plus-circle">
+                                                                <circle cx="12" cy="12" r="10"></circle>
+                                                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                                                            </svg>
+                                                            Savol qo'shish
+                                                        </a>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

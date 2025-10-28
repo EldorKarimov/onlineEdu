@@ -37,6 +37,26 @@
               <ul>
                 {% for lesson in module.lesson_set.all %}
                 {% get_user_progress lesson request.user as progress %}
+                {% get_first_quiz as first_quiz %}
+                {% if forloop.first %}
+                <li class="py-4 flex items-center justify-between flex-wrap border-b border-borderColor dark:border-borderColor-dark">
+                  <div>
+                    <h4 class="text-blackColor dark:text-blackColor-dark leading-1 font-light">
+                      <i class="icofont-audio mr-10px"></i>
+                      {{ first_quiz.title }}
+                    </h4>
+                  </div>
+                  <div class="text-blackColor dark:text-blackColor-dark text-sm flex items-center">
+                
+                    
+                    <a href="{% url 'quiz_details' course_slug first_quiz.id %}" class="bg-primaryColor text-whiteColor text-sm ml-5 rounded py-0.5">
+                      <p class="px-10px">
+                         Ko'rish
+                      </p>
+                    </a>
+                  </div>
+                </li>
+                {% endif %}
                 <li
                   class="py-4 flex items-center justify-between flex-wrap border-b border-borderColor dark:border-borderColor-dark"
                 >

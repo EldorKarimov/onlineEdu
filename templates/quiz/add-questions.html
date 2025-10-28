@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Profile | {{ profile.get_full_name }} {% endblock %}
+
+{% block content %}
+<main class="bg-transparent">
+    {% include 'includes/user_banner.html' %}
+
+    <!--dashbord menu section -->
+    <section>
+        <div class="container-fluid-2">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-30px pt-30px pb-100px">
+                {% include 'includes/profile_left.html' %}
+                <!-- dashboard content -->
+                <div class="lg:col-start-4 lg:col-span-9">
+                    <!-- profile details -->
+                    <div
+                        class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+                        <div class="mb-6 pb-5 border-b-2 border-borderColor dark:border-borderColor-dark">
+                            <h2 class="text-2xl font-bold text-blackColor dark:text-blackColor-dark">
+                                Savol qo'shish
+                            </h2>
+                        </div>
+
+                        <!-- content -->
+                        <div class="lg:col-start-4 lg:col-span-9">
+                            <!-- quize attempts area -->
+                            <div
+                                class="p-10px md:px-10 md:py-50px mb-30px bg-whiteColor dark:bg-whiteColor-dark shadow-accordion dark:shadow-accordion-dark rounded-5">
+                               
+
+                                <hr class="my-4 border-contentColor opacity-35">
+
+                                <!-- main content -->
+                                 {{ form.errors }}
+                                <div class="overflow-auto">
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        {{ form.questions }}
+                                        <button type="submit" class="btn btn-outline-success mt-3">Yuborish</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

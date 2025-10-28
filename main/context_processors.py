@@ -5,4 +5,5 @@ def module_context(request):
     modules = Module.objects.filter(course__slug=course_slug)
     return {
         'modules': modules,
+        'course_slug':course_slug
     }
